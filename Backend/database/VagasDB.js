@@ -2,10 +2,14 @@ const db = require("../util/db");
 
 const listarVagas = async function () {
   return new Promise((resolve) => {
-    db.connection.query("select * from vagas", function (err, response) {
-      if (err) throw err;
-      resolve(response);
-    });
+    //https://pt.stackoverflow.com/questions/446448/p%C3%A1gina%C3%A7%C3%A3o-com-nodejs-com-banco-de-dados-mysql
+    db.connection.query(
+      "select * from vagas limit 10 offset ?"[count],
+      function (err, response) {
+        if (err) throw err;
+        resolve(response);
+      }
+    );
   });
 };
 
