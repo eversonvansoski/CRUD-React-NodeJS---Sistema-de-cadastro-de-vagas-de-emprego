@@ -61,6 +61,85 @@ const verificarVagaItiva = async function (vaga_id) {
   });
 };
 
+const cadastrarVaga = async function (
+  titulo,
+  empresa,
+  descricao,
+  status_vaga_id,
+  regime_contratacao_id
+) {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "insert into vagas (titulo, empresa, descricao, status_vaga_id, regime_contratacao_id) values (?, ?, ?, ?, ?);",
+      [titulo, empresa, descricao, status_vaga_id, regime_contratacao_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }
+    );
+  });
+};
+const excluirVaga = async function (vaga_id) {
+  return new Promise((resolve) => {
+    let query = `
+    delete from candidatos_vaga where vaga_id = ?;
+    delete from vagas where id = ?;
+    `;
+
+    db.connection.query(query, [vaga_id, vaga_id], function (err, response) {
+      if (err) throw err;
+      if (response) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
+
+const alterarStatusVaga = async function (vaga_id, status_vaga_id) {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "update vagas set status_vaga_id = ? where id = ?",
+      [status_vaga_id, vaga_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }
+    );
+  });
+};
+
+const editarVaga = async function (
+  titulo,
+  empresa,
+  descricao,
+  regime_contratacao_id
+) {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "update vagas set titulo = ?, empresa = ?, descricao = ?, regime_contratacao_id = ?",
+      [titulo, empresa, descricao, regime_contratacao_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }
+    );
+  });
+};
+
 const incluirCandidatura = async function (candidato_id, vaga_id) {
   return new Promise((resolve) => {
     db.connection.query(
@@ -84,5 +163,9 @@ module.exports = {
   listarStatusVaga,
   listarRegimesContratacao,
   verificarVagaItiva,
+  cadastrarVaga,
+  excluirVaga,
+  alterarStatusVaga,
+  editarVaga,
   incluirCandidatura,
 };

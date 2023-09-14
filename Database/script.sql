@@ -75,7 +75,7 @@ INSERT INTO 'teste_dev_everson'.'tipos_usuario' ('descricao') VALUES ('Contratan
 INSERT INTO 'teste_dev_everson'.'status_vaga' ('descricao') VALUES ('Ativa');
 INSERT INTO 'teste_dev_everson'.'status_vaga' ('descricao') VALUES ('Pausada');
 INSERT INTO 'teste_dev_everson'.'status_vaga' ('descricao') VALUES ('Finalizada');
-INSERT INTO 'teste_dev_everson'.'status_vaga' ('descricao') VALUES ('Excluida');
+
 
 
 
