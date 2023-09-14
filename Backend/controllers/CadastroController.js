@@ -1,7 +1,7 @@
 const defaultResponse = require("../util/defaultResponse");
 const regEx = require("../util/regEx");
 const bcrypt = require("bcrypt");
-const cadastro = require("../database/cadastro");
+const cadastro = require("../database/CadastroDB");
 
 const erroGenerico = "Houve um erro ao cadastrar o usuário";
 

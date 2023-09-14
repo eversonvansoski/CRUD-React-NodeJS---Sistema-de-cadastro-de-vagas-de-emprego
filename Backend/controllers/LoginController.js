@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const defaultResponse = require("../util/defaultResponse");
-const usuarios = require("../database/usuarios");
+const usuarios = require("../database/UsuariosDB");
 
 const SECRET =
   "!RwxHzPuXF3_P<]J#RNs`iGB}Fx0G.j6[ZM0:?FbD54>17bvYeV|iH)M9xoUUz]";

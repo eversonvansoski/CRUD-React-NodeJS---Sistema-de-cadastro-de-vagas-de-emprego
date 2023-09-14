@@ -1,6 +1,6 @@
-const cadastro = require("./controllers/cadastro");
-const login = require("./controllers/login");
-const vagas = require("./controllers/vagas");
+const cadastro = require("./controllers/CadastroController");
+const login = require("./controllers/LoginController");
+const vagas = require("./controllers/VagasController");
 
 module.exports = function (app) {
   cadastro(app);
