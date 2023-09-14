@@ -164,7 +164,7 @@ export default function MiniDrawer(props) {
                   textDecoration: "none",
                 }}
               >
-                TESTE HOUER
+                TESTE {/* HOUER */}
               </Typography>
 
               <Box sx={{ flexGrow: 0 }}>

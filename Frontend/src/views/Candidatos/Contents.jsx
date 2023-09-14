@@ -1,20 +1,44 @@
 import React, { Component } from "react";
 import {
-  Autocomplete,
   TextField,
   Stack,
   Button,
   FormControl,
   Grid,
   Box,
+  IconButton,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { getScreenSize, refreshToken } from "../../utils/utils";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default class Historico extends Component {
-  state = {};
+  state = {
+    filtroNome: "",
+    filtroEmail: "",
+    filtroTelefone: "",
+    filtroCPF: "",
+  };
   componentDidMount = () => {};
+
+  handleUpdateNome = (value) => {
+    this.setState({ filtroNome: value });
+  };
+
+  handleUpdateEmail = (value) => {
+    this.setState({ filtroEmail: value });
+  };
+
+  handleUpdateTelefone = (value) => {
+    this.setState({ filtroTelefone: value });
+  };
+
+  handleUpdateCPF = (value) => {
+    this.setState({ filtroCPF: value });
+  };
 
   render() {
     const columns = [
@@ -48,6 +72,42 @@ export default class Historico extends Component {
         headerName: "Linkedin",
         width: 160,
       },
+      {
+        field: "acoes",
+        headerName: "Ações",
+        sortable: false,
+        width: 130,
+        disableClickEventBubbling: true,
+        renderCell: (params) => {
+          return (
+            <>
+              <IconButton
+                color="secondary"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgExibir(params.row.id, [{}])}
+              >
+                <VisibilityIcon />
+              </IconButton>
+
+              <IconButton
+                color="primary"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgEditar(params.row.id, [{}])}
+              >
+                <EditIcon color="info" />
+              </IconButton>
+
+              <IconButton
+                color="error"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgExcluir(params.row.id, [{}])}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </>
+          );
+        },
+      },
     ];
 
     const rows = [
@@ -74,16 +134,32 @@ export default class Historico extends Component {
           <Grid container>
             <Grid item xs={12} md={12} lg={12}>
               <Box>
-                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }} size="small">
-                  <Autocomplete
-                    onChange={(event, value) => this.handleChange(value)}
-                    onInputChange={(event, value) => this.handleChange(value)}
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Nome"
                     size="small"
-                    options={this.state.rowsFiltro}
-                    getOptionLabel={(option) => option.nome}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Usuário" />
-                    )}
+                    onKeyUp={(e) => this.handleUpdateNome(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Email"
+                    size="small"
+                    onKeyUp={(e) => this.handleUpdateEmail(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Telefone"
+                    size="small"
+                    onKeyUp={(e) => this.handleUpdateTelefone(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="CPF"
+                    size="small"
+                    onKeyUp={(e) => this.handleUpdateCPF(e.target.value)}
                   />
                 </FormControl>
 

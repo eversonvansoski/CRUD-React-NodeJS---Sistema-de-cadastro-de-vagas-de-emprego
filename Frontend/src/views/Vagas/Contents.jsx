@@ -13,8 +13,29 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { getScreenSize, refreshToken } from "../../utils/utils";
 
 export default class Historico extends Component {
-  state = {};
+  state = {
+    filtroTitulo: "",
+    filtroEmpresa: "",
+    filtroRegimeContratacao: "",
+    filtroStatus: "",
+  };
   componentDidMount = () => {};
+
+  handleUpdateTitulo = (value) => {
+    this.setState({ filtroTitulo: value });
+  };
+
+  handleUpdateEmpresa = (value) => {
+    this.setState({ filtroEmpresa: value });
+  };
+
+  handleUpdateRegimeContratacao = (value) => {
+    this.setState({ filtroRegimeContratacao: value });
+  };
+
+  handleUpdateStatus = (value) => {
+    this.setState({ filtroStatus: value });
+  };
 
   render() {
     const columns = [
@@ -65,20 +86,38 @@ export default class Historico extends Component {
           <Grid container>
             <Grid item xs={12} md={12} lg={12}>
               <Box>
-                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }} size="small">
-                  <Autocomplete
-                    onChange={(event, value) => this.handleChange(value)}
-                    onInputChange={(event, value) => this.handleChange(value)}
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Título"
                     size="small"
-                    options={this.state.rowsFiltro}
-                    getOptionLabel={(option) => option.nome}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Usuário" />
-                    )}
+                    onKeyUp={(e) => this.handleUpdateTitulo(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Empresa"
+                    size="small"
+                    onKeyUp={(e) => this.handleUpdateEmpresa(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Regime Contratação"
+                    size="small"
+                    onKeyUp={(e) =>
+                      this.handleUpdateRegimeContratacao(e.target.value)
+                    }
+                  />
+                </FormControl>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
+                  <TextField
+                    label="Status"
+                    size="small"
+                    onKeyUp={(e) => this.handleUpdateStatus(e.target.value)}
                   />
                 </FormControl>
 
-                <FormControl sx={{ mb: 1, mr: 1, minWidth: 120 }} size="small">
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 120 }}>
                   <Button
                     variant="contained"
                     endIcon={<FilterAltOutlinedIcon />}
