@@ -10,5 +10,5 @@ const listarCandidatos = async function () {
 };
 
 module.exports = {
-  listarVagas,
+  listarCandidatos,
 };

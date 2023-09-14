@@ -1,11 +1,11 @@
-const vagas = require("../database/vagas");
 const verifyJWT = require("../util/verifyJWT");
+const candidatos = require("../database/CandidatosDB");
 
 module.exports = function (app) {
   app.get(
-    "/vagas",
+    "/candidatos",
     /* verifyJWT, */ async function (req, res) {
-      res.json(await vagas.listarVagas());
+      res.json(await candidatos.listarCandidatos());
     }
   );
 };

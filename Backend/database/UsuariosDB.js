@@ -1,5 +1,17 @@
 const db = require("../util/db");
 
+const listarTiposUsuario = async function () {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "select * from tupos_usuario",
+      function (err, response) {
+        if (err) throw err;
+        resolve(response);
+      }
+    );
+  });
+};
+
 const listarUsuarioPorEmail = async function (email) {
   return new Promise((resolve) => {
     db.connection.query(
@@ -24,4 +36,5 @@ const listarUsuarioPorEmail = async function (email) {
 
 module.exports = {
   listarUsuarioPorEmail,
+  listarTiposUsuario,
 };
