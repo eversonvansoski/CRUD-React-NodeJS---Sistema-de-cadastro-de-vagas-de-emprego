@@ -62,28 +62,7 @@ export default class Index extends Component {
                     <Avatar sx={{ m: 1, width: 80, height: 80 }} src={""} />
                   </Box>
                 </Grid>
-                <Grid item square xs={12} sm={12} md={12}>
-                  <Box sx={{ ml: { md: 2 }, mr: { md: 2 } }}>
-                    <FormLabel id="demo-radio-buttons-group-label">
-                      Tipo de Usuário
-                    </FormLabel>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="candidato"
-                    >
-                      <FormControlLabel
-                        value="candidato"
-                        control={<Radio />}
-                        label="Candidato"
-                      />
-                      <FormControlLabel
-                        value="recrutador"
-                        control={<Radio />}
-                        label="Recrutador"
-                      />
-                    </RadioGroup>
-                  </Box>
-                </Grid>
+
                 <Grid item square xs={12} sm={12} md={12}>
                   <Box sx={{ ml: { md: 2 }, mr: { md: 2 } }}>
                     <TextField

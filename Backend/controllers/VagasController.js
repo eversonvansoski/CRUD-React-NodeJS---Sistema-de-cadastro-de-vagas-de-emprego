@@ -45,24 +45,24 @@ module.exports = function (app) {
   app.delete("/vagas/excluir-vaga", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let cadastro = vagas.excluirVaga(vaga_id);
-    if (cadastro) {
+    let excluirVaga = vagas.excluirVaga(vaga_id);
+    if (excluirVaga) {
       res.json(defaultResponse(true, "Vaga excluida"));
     } else {
-      res.json(defaultResponse(false, "Erro ao excluida a vaga"));
+      res.json(defaultResponse(false, "Erro ao excluir a vaga"));
     }
   });
 
   app.put("/vagas/editar-vaga", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let cadastro = vagas.editarVaga(
+    let editarVaga = vagas.editarVaga(
       titulo,
       empresa,
       descricao,
       regime_contratacao_id
     );
-    if (cadastro) {
+    if (editarVaga) {
       res.json(defaultResponse(true, "Vaga editada"));
     } else {
       res.json(defaultResponse(false, "Erro ao editar a vaga"));
@@ -72,8 +72,8 @@ module.exports = function (app) {
   app.put("/vagas/ativar-vaga", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let cadastro = vagas.alterarStatusVaga(vaga_id, status_vaga_ativa);
-    if (cadastro) {
+    let alterarStatusVaga = vagas.alterarStatusVaga(vaga_id, status_vaga_ativa);
+    if (alterarStatusVaga) {
       res.json(defaultResponse(true, "Vaga ativada"));
     } else {
       res.json(defaultResponse(false, "Erro ao ativar a vaga"));
@@ -83,8 +83,11 @@ module.exports = function (app) {
   app.put("/vagas/pausar-vaga", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let cadastro = vagas.alterarStatusVaga(vaga_id, status_vaga_pausada);
-    if (cadastro) {
+    let alterarStatusVaga = vagas.alterarStatusVaga(
+      vaga_id,
+      status_vaga_pausada
+    );
+    if (alterarStatusVaga) {
       res.json(defaultResponse(true, "Vaga pausada"));
     } else {
       res.json(defaultResponse(false, "Erro ao pausar a vaga"));
@@ -94,8 +97,11 @@ module.exports = function (app) {
   app.put("/vagas/finalizar-vaga", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let cadastro = vagas.alterarStatusVaga(vaga_id, status_vaga_finalizada);
-    if (cadastro) {
+    let alterarStatusVaga = vagas.alterarStatusVaga(
+      vaga_id,
+      status_vaga_finalizada
+    );
+    if (alterarStatusVaga) {
       res.json(defaultResponse(true, "Vaga finalizada"));
     } else {
       res.json(defaultResponse(false, "Erro ao finalizar a vaga"));
