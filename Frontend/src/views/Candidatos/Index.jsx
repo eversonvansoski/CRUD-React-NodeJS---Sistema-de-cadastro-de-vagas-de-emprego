@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import Contents from "./Contents";
+import GridView from "./GridView";
 import { setTitle, setLastPage } from "../../utils/utils";
 
 export default class Index extends Component {
@@ -15,7 +15,7 @@ export default class Index extends Component {
     return (
       <Grid container spacing={3}>
         <Grid item xs={12} md={12} lg={12}>
-          <Contents />
+          <GridView />
         </Grid>
       </Grid>
     );

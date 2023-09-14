@@ -62,6 +62,42 @@ export default class Historico extends Component {
         headerName: "Status",
         width: 160,
       },
+      {
+        field: "acoes",
+        headerName: "Ações",
+        sortable: false,
+        width: 130,
+        disableClickEventBubbling: true,
+        renderCell: (params) => {
+          return (
+            <>
+              <IconButton
+                color="secondary"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgExibir(params.row.id, [{}])}
+              >
+                <VisibilityIcon />
+              </IconButton>
+
+              <IconButton
+                color="primary"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgEditar(params.row.id, [{}])}
+              >
+                <EditIcon color="info" />
+              </IconButton>
+
+              <IconButton
+                color="error"
+                sx={{ cursor: "pointer" }}
+                //onClick={() => handleOpenMsgExcluir(params.row.id, [{}])}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </>
+          );
+        },
+      },
     ];
 
     const rows = [

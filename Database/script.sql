@@ -29,7 +29,7 @@ CREATE TABLE 'teste_dev_everson'.'status_vaga' (
   'descricao' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('id'));
 
---candidatos MODIFICAR
+--candidatos
 CREATE TABLE 'teste_dev_everson'.'candidatos' (
   'id' INT NOT NULL AUTO_INCREMENT,
   'telefone' VARCHAR(11) NOT NULL,
