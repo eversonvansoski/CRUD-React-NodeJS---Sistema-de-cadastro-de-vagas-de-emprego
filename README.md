@@ -10,7 +10,7 @@ Passo a passo para criação de ambiente local de desenvolvimento:
 Após os passos acima, seguir as instruções para cada camada da aplicação:
 
 Banco de dados:
-> Criar um usuário com permissão de CRUD (user: "newuser", password: "Teste@123458")
+> Criar um usuário com permissão de CRUD (user: "newuser", password: "Teste@123458")\n
 > Executar o script na pasta Database
 
 
