@@ -1,6 +1,3 @@
 # Teste-Desenvolvedor-Hower
-Backend
-  Pasta contendo o backend da aplicação
-
-Frontend
-  Pasta contendo o frontend da aplicação
+Documentação da API
+https://documenter.getpostman.com/view/12904086/2s9YC5yCqe
