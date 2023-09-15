@@ -15,6 +15,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getAll } from "../../services/candidatos";
+import DialogExcluir from "./Dialogs/Excluir";
+import DialogEditar from "./Dialogs/Editar";
+import DialogInserir from "./Dialogs/Inserir";
 
 export default class Historico extends Component {
   state = {
@@ -22,6 +25,11 @@ export default class Historico extends Component {
     filtroEmail: "",
     filtroTelefone: "",
     filtroCPF: "",
+    msgInserirAberta: false,
+    msgExcluirAberta: false,
+    msgEditarAberta: false,
+    dialogId: "",
+    dialogNome: "",
   };
   componentDidMount = () => {
     console.log("ue");
@@ -53,7 +61,28 @@ export default class Historico extends Component {
     this.setState({ filtroCPF: value });
   };
 
+  handleOpenMsgInserir = () => {
+    this.setState({ msgInserirAberta: true });
+  };
+
+  handleCloseMsgExcluir = () => {
+    this.setState({ msgExcluirAberta: false });
+  };
+  handleCloseMsgEditar = () => {
+    this.setState({ msgEditarAberta: false });
+  };
+  handleCloseMsgInserir = () => {
+    this.setState({ msgInserirAberta: false });
+  };
+
   render() {
+    let handleOpenMsgExcluir = (id, nome) => {
+      this.setState({
+        msgExcluirAberta: true,
+        dialogId: id,
+        dialogNome: nome,
+      });
+    };
     const columns = [
       { field: "id", headerName: "ID", width: 90 },
       {
@@ -113,7 +142,9 @@ export default class Historico extends Component {
               <IconButton
                 color="error"
                 sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgExcluir(params.row.id, [{}])}
+                onClick={() =>
+                  handleOpenMsgExcluir(params.row.id, params.row.nome)
+                }
               >
                 <DeleteIcon />
               </IconButton>
@@ -143,6 +174,40 @@ export default class Historico extends Component {
     ];
     return (
       <>
+        <DialogExcluir
+          title={
+            <>
+              {"Deseja excluir "}
+              <u>{this.state.dialogNome}</u> {"?"}
+            </>
+          }
+          id={this.state.dialogId}
+          open={this.state.msgExcluirAberta}
+          handleCloseMsg={this.handleCloseMsgExcluir}
+          listCandidatos={this.listCandidatos}
+        >
+          <Button onClick={this.handleCloseMsgExcluir}>Cancelar</Button>
+        </DialogExcluir>
+
+        {/*         <DialogEditar
+          title="Editar Candidato"
+          id={this.state.dialogId}
+          data={this.state.dialogData}
+          open={this.state.msgEditarAberta}
+          handleCloseMsg={this.handleCloseMsgEditar}
+          listCandidatos={this.listCandidatos}
+        >
+          <Button onClick={this.handleCloseMsgEditar}>Cancelar</Button>
+        </DialogEditar>
+        <DialogInserir
+          title="Cadastrar Candidato"
+          open={this.state.msgInserirAberta}
+          handleCloseMsg={this.handleCloseMsgInserir}
+          listCandidatos={this.listCandidatos}
+        >
+          <Button onClick={this.handleCloseMsgInserir}>Cancelar</Button>
+        </DialogInserir>
+ */}
         <Stack>
           <Grid container>
             <Grid item xs={12} md={12} lg={12}>
