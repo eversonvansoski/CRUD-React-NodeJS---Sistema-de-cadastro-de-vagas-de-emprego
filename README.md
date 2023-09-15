@@ -20,9 +20,9 @@ Banco de dados:
 Backend/API:
 > Acessar a pasta Backend
 > 
-> Execuar o comando npm install
+> Execuar o comando npm install no terminal
 > 
-> Executar o comando npm start
+> Executar o comando npm start no terminal
 > 
 > Importar a collection (Teste Everson.postman_collection.json) no Postman ou seguir a documentação linkada acima para testes
 
@@ -30,9 +30,9 @@ Backend/API:
 Frontend:
 > Acessar a pasta Frontend
 > 
-> Execuar o comando npm install
+> Execuar o comando npm install no terminal
 > 
-> Executar o comando npm start
+> Executar o comando npm start no terminal
 
 
 
