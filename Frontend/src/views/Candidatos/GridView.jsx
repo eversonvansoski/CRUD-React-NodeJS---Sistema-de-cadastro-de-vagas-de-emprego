@@ -14,6 +14,7 @@ import { getScreenSize, refreshToken } from "../../utils/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getAll } from "../../services/candidatos";
 
 export default class Historico extends Component {
   state = {
@@ -22,20 +23,32 @@ export default class Historico extends Component {
     filtroTelefone: "",
     filtroCPF: "",
   };
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    console.log("ue");
+    this.listaCandidatos();
+  };
+
+  listaCandidatos = () => {
+    const listItems = getAll();
+    listItems
+      .then((data) => {
+        let rows = data.data.map(function (item) {});
+        console.log(rows);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   handleUpdateNome = (value) => {
     this.setState({ filtroNome: value });
   };
-
   handleUpdateEmail = (value) => {
     this.setState({ filtroEmail: value });
   };
-
   handleUpdateTelefone = (value) => {
     this.setState({ filtroTelefone: value });
   };
-
   handleUpdateCPF = (value) => {
     this.setState({ filtroCPF: value });
   };

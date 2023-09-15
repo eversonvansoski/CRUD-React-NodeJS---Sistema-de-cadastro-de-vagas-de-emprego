@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
 import GridView from "./GridView";
-import { setTitle, setLastPage } from "../../utils/utils";
+import { setTitle } from "../../utils/utils";
 
 export default class Index extends Component {
   state = {
@@ -9,7 +9,6 @@ export default class Index extends Component {
   };
   componentDidMount = () => {
     setTitle(this.props.title);
-    setLastPage();
   };
   render() {
     return (

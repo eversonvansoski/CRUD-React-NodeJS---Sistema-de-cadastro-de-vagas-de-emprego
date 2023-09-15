@@ -25,7 +25,7 @@ module.exports = function (app) {
   app.delete("/candidatos/excluir", async function (req, res) {
     const candidato_id = req.body.candidato_id;
 
-    let excluirCandidato = candidatos.excluirCandidato(candidato_id);
+    let excluirCandidato = await candidatos.excluirCandidato(candidato_id);
     if (excluirCandidato) {
       res.json(defaultResponse(true, "Candidato excluido"));
     } else {
@@ -41,7 +41,7 @@ module.exports = function (app) {
     const nome = req.body.nome;
     const email = req.body.email;
 
-    let editarCandidato = candidatos.editarCandidato(
+    let editarCandidato = await candidatos.editarCandidato(
       telefone,
       cpf,
       linkedin,

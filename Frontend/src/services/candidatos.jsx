@@ -1,7 +1,7 @@
-import { get, post, put, destroy } from "./base";
+import { get, post, put, destroy } from "./_base";
 
 let getAll = () => {
-  return get("/ClientSignature");
+  return get("/candidatos");
 };
 let getById = (id) => {
   return get("/ClientSignature/" + id);

@@ -3,21 +3,13 @@ import {
   Box,
   Button,
   Card,
-  FormControlLabel,
-  Switch,
   Grid,
-  Divider,
-  Link,
   TextField,
-  Typography,
   CardContent,
   Alert,
   LinearProgress,
 } from "@mui/material";
 import { Component } from "react";
-import { auth } from "../../services/login";
-import { TokenValidate } from "../../services/usuarios";
-import { setTitle } from "../../utils/utils";
 
 export default class Index extends Component {
   state = {};

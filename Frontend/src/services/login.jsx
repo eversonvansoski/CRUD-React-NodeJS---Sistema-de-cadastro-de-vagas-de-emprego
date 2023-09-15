@@ -1,4 +1,4 @@
-import { get, post } from "./base";
+import { get, post } from "./_base";
 
 let auth = (userName, password, keepLoggedIn) => {
   let body = {

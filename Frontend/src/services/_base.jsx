@@ -1,7 +1,6 @@
 import axios from "axios";
 
-//const baseUrl = "https://localhost:5001/api/";
-const baseUrl = "https://api.jtl.app/api/";
+const baseUrl = "https://localhost:6001/";
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -76,36 +75,6 @@ let postFiles = (url, file) => {
   });
 };
 
-//metodo excepcional para chamada da deição do perfil
-///////////////////////////////////////////////////////
-let putFiles = (url, file, email, id) => {
-  const form = new FormData();
-
-  form.append("Photo", file);
-  form.append("Id", id);
-  form.append("Email", email);
-
-  const options = {
-    method: "PUT",
-    url: baseUrl + url,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: "Bearer " + localStorage.getItem("accessToken"),
-      "session-token": sessionStorage.getItem("sessionToken"),
-    },
-    data: form,
-  };
-  axios
-    .request(options)
-    .then(function (response) {
-      window.location.href = "/Perfil";
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-};
-///////////////////////////////////////////////////////
-
 let put = (url, data) => {
   return new Promise((resolve, reject) => {
     api
@@ -148,4 +117,4 @@ let destroy = (url, data) => {
   });
 };
 
-export { get, post, put, destroy, postFiles, putFiles, baseUrl };
+export { get, post, put, destroy, postFiles, baseUrl };

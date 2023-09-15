@@ -1,4 +1,4 @@
-import { get, post, put, destroy, putFiles, baseUrl } from "./base";
+import { get, post, put, destroy, putFiles, baseUrl } from "./_base";
 import axios from "axios";
 
 let getAll = () => {

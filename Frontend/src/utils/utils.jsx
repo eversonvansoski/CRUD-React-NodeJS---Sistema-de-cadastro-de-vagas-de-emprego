@@ -1,4 +1,3 @@
-import { getById as getUserById, getPhoto } from "../services/usuarios";
 import { logout as exit, refreshToken as reToken } from "../services/login";
 
 /* let refreshToken = () => {
@@ -25,34 +24,7 @@ let refreshToken = () => {
 let getScreenSize = () => {
   return { h: window.screen.height, w: window.screen.width };
 };
-let authCheck = () => {
-  const userId = getDataToken().nameidentifier;
-  if (
-    localStorage.getItem("accessToken") === "" ||
-    localStorage.getItem("accessToken") === undefined ||
-    localStorage.getItem("accessToken") === null
-  ) {
-    window.location.href = "/Login";
-  } else {
-    const service = getUserById(userId);
-    service
-      .then((data) => {
-        getUserPhoto(userId);
-      })
-      .catch((e) => {
-        window.location.href = "/Login";
-      });
-  }
-};
-let getUserPhoto = (userId) => {
-  const service = getPhoto(userId);
-  service
-    .then((data) => {
-      console.log(data);
-      localStorage.setItem("userPhoto", data.data.photo);
-    })
-    .catch((e) => {});
-};
+
 let getDataToken = () => {
   let token = localStorage.getItem("accessToken");
 
@@ -82,8 +54,6 @@ let logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("sessionToken");
-  localStorage.removeItem("keepLoggedIn");
-  localStorage.removeItem("userPhoto");
   sessionStorage.removeItem("sessionToken");
   exit()
     .then((res) => {
@@ -98,16 +68,5 @@ let logout = () => {
 let setTitle = (title) => {
   document.title = title;
 };
-let setLastPage = () => {
-  localStorage.setItem("lastURL", window.location.pathname);
-};
 
-export {
-  authCheck,
-  getDataToken,
-  getScreenSize,
-  logout,
-  refreshToken,
-  setLastPage,
-  setTitle,
-};
+export { getDataToken, getScreenSize, logout, refreshToken, setTitle };
