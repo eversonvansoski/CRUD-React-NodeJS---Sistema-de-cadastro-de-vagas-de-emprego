@@ -1,10 +1,41 @@
 const db = require("../util/db");
 
-const listarVagas = async function () {
+const listarVagas = async function (
+  titulo = "",
+  empresa = "",
+  descricao = "",
+  status_vaga = "",
+  regime_contratacao = "",
+  pagina = 1,
+  linhasPorPagina = 20
+) {
   return new Promise((resolve) => {
-    //https://pt.stackoverflow.com/questions/446448/p%C3%A1gina%C3%A7%C3%A3o-com-nodejs-com-banco-de-dados-mysql
+    let offset = (pagina - 1) * linhasPorPagina;
+
+    let query =
+      "select v.*, sv.descricao as status, rc.descricao as regime_contratacao from vagas v ";
+    query += "inner join status_vaga sv on sv.id = v.status_vaga_id ";
+    query +=
+      "inner join regimes_contratacao rc on rc.id = v.regime_contratacao_id ";
+    query += "where 1=1 ";
+    query += titulo == "" ? "/*?*/ " : "and titulo like ? ";
+    query += empresa == "" ? "/*?*/ " : "and empresa like ? ";
+    query += descricao == "" ? "/*?*/ " : "and v.descricao like ? ";
+    query += status_vaga == "" ? "/*?*/ " : "and sv.descricao like ? ";
+    query += regime_contratacao == "" ? "/*?*/ " : "and rc.descricao like ? ";
+    query += "limit ?  offset ?";
+
     db.connection.query(
-      "select * from vagas limit 10 offset ?"[count],
+      query,
+      [
+        "%" + titulo + "%",
+        "%" + empresa + "%",
+        "%" + descricao + "%",
+        "%" + status_vaga + "%",
+        "%" + regime_contratacao + "%",
+        linhasPorPagina,
+        offset,
+      ],
       function (err, response) {
         if (err) throw err;
         resolve(response);
@@ -126,12 +157,13 @@ const editarVaga = async function (
   titulo,
   empresa,
   descricao,
-  regime_contratacao_id
+  regime_contratacao_id,
+  vaga_id
 ) {
   return new Promise((resolve) => {
     db.connection.query(
-      "update vagas set titulo = ?, empresa = ?, descricao = ?, regime_contratacao_id = ?",
-      [titulo, empresa, descricao, regime_contratacao_id],
+      "update vagas set titulo = ?, empresa = ?, descricao = ?, regime_contratacao_id = ? where id = ?",
+      [titulo, empresa, descricao, regime_contratacao_id, vaga_id],
       function (err, response) {
         if (err) throw err;
         if (response) {

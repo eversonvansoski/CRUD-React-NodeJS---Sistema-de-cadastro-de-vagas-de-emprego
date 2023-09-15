@@ -7,10 +7,14 @@ import {
   FormControl,
   Grid,
   Box,
+  IconButton,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { getScreenSize, refreshToken } from "../../utils/utils";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default class Historico extends Component {
   state = {

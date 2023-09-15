@@ -13,7 +13,25 @@ module.exports = function (app) {
     res.json(await vagas.listarVagasPorUsuario(usuario_id));
   });
   app.get("/vagas", async function (req, res) {
-    res.json(await vagas.listarVagas());
+    const pagina = req.body.pagina;
+    const linhasPorPagina = req.body.linhasPorPagina;
+    const titulo = req.body.titulo;
+    const empresa = req.body.empresa;
+    const descricao = req.body.descricao;
+    const status_vaga = req.body.status_vaga;
+    const regime_contratacao = req.body.regime_contratacao;
+
+    res.json(
+      await vagas.listarVagas(
+        titulo,
+        empresa,
+        descricao,
+        status_vaga,
+        regime_contratacao,
+        pagina,
+        linhasPorPagina
+      )
+    );
   });
   app.get("/vagas/status-vaga", async function (req, res) {
     res.json(await vagas.listarStatusVaga());
