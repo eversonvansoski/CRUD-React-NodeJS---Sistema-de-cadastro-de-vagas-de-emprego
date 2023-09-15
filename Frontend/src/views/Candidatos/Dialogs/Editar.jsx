@@ -30,34 +30,7 @@ export default class Index extends Component {
     erro: false,
   };
 
-  alterarUsuario = () => {
-    let celular;
-    let telefone;
-    let perfilId;
-
-    this.props.data &&
-      this.props.data.map((item) => {
-        cpfCnpj = this.state.cpfCnpj === "" ? item.cpfCnpj : this.state.cpfCnpj;
-        nome = this.state.nome === "" ? item.nome : this.state.nome;
-        email = this.state.email === "" ? item.email : this.state.email;
-        cep = this.state.cep === "" ? item.cep : this.state.cep;
-        endereco =
-          this.state.endereco === "" ? item.endereco : this.state.endereco;
-        numero = this.state.numero === "" ? item.numero : this.state.numero;
-        cidade = this.state.cidade === "" ? item.cidade : this.state.cidade;
-        bairro = this.state.bairro === "" ? item.bairro : this.state.bairro;
-        estado = this.state.estado === "" ? item.estado : this.state.estado;
-        complemento =
-          this.state.complemento === ""
-            ? item.complemento
-            : this.state.complemento;
-        celular = this.state.celular === "" ? item.celular : this.state.celular;
-        telefone =
-          this.state.telefone === "" ? item.telefone : this.state.telefone;
-        perfilId =
-          this.state.perfilId === 0 ? item.perfilId : this.state.perfilId;
-      });
-  };
+  alterarUsuario = () => {};
 
   msgError = () => {
     return this.state.erro ? (

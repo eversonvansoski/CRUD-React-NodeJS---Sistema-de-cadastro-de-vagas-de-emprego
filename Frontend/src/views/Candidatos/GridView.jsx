@@ -30,6 +30,7 @@ export default class Historico extends Component {
     msgEditarAberta: false,
     dialogId: "",
     dialogNome: "",
+    dialogData: {},
   };
   componentDidMount = () => {
     console.log("ue");
@@ -83,6 +84,13 @@ export default class Historico extends Component {
         dialogNome: nome,
       });
     };
+    let handleOpenMsgEditar = (id, data) => {
+      this.setState({
+        msgEditarAberta: true,
+        dialogId: id,
+        dialogData: data,
+      });
+    };
     const columns = [
       { field: "id", headerName: "ID", width: 90 },
       {
@@ -134,7 +142,17 @@ export default class Historico extends Component {
               <IconButton
                 color="primary"
                 sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgEditar(params.row.id, [{}])}
+                onClick={() =>
+                  handleOpenMsgEditar(params.row.id, [
+                    {
+                      nome: params.row.nome,
+                      email: params.row.email,
+                      telefone: params.row.telefone,
+                      cpf: params.row.cpf,
+                      linkedin: params.row.linkedin,
+                    },
+                  ])
+                }
               >
                 <EditIcon color="info" />
               </IconButton>
@@ -189,17 +207,17 @@ export default class Historico extends Component {
           <Button onClick={this.handleCloseMsgExcluir}>Cancelar</Button>
         </DialogExcluir>
 
-        {/*         <DialogEditar
+        <DialogEditar
           title="Editar Candidato"
           id={this.state.dialogId}
           data={this.state.dialogData}
           open={this.state.msgEditarAberta}
-          handleCloseMsg={this.handleCloseMsgEditar}
-          listCandidatos={this.listCandidatos}
+          /*           handleCloseMsg={this.handleCloseMsgEditar}
+          listCandidatos={this.listCandidatos} */
         >
           <Button onClick={this.handleCloseMsgEditar}>Cancelar</Button>
         </DialogEditar>
-        <DialogInserir
+        {/*  <DialogInserir
           title="Cadastrar Candidato"
           open={this.state.msgInserirAberta}
           handleCloseMsg={this.handleCloseMsgInserir}
