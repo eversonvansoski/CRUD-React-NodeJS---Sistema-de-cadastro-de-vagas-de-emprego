@@ -14,7 +14,7 @@ Após os passos acima, seguir as instruções para cada camada da aplicação:
 Banco de dados:
 > Criar um usuário com permissão de CRUD (user: "newuser", password: "Teste@123458")
 > 
-> Executar o script na pasta Database
+> Executar o script na pasta Database. Esse script cria todas as tabelas e insere dados iniciais
 
 
 Backend/API:
