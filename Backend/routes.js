@@ -1,10 +1,10 @@
-const cadastro = require("./controllers/CadastroController");
+const usuarios = require("./controllers/UsuariosController");
 const login = require("./controllers/LoginController");
 const vagas = require("./controllers/VagasController");
 const candidatos = require("./controllers/CandidatosController");
 
 module.exports = function (app) {
-  cadastro(app);
+  usuarios(app);
   login(app);
   vagas(app);
   candidatos(app);

@@ -1,11 +1,11 @@
 const vagas = require("../database/VagasDB");
-const candidatosVagas = require("../database/VagasDB");
+const candidatosVagas = require("../database/CandidatosVagasDB");
 const defaultResponse = require("../util/defaultResponse");
 const verifyJWT = require("../util/verifyJWT");
 
 const status_vaga_ativa = 1;
-const status_vaga_pausada = 1;
-const status_vaga_finalizada = 1;
+const status_vaga_pausada = 2;
+const status_vaga_finalizada = 3;
 
 module.exports = function (app) {
   app.get("/vagas/minhas-vagas", async function (req, res) {
@@ -33,20 +33,20 @@ module.exports = function (app) {
       )
     );
   });
-  app.get("/vagas/status-vaga", async function (req, res) {
+  app.get("/vagas/status", async function (req, res) {
     res.json(await vagas.listarStatusVaga());
   });
   app.get("/vagas/regimes-contratacao", async function (req, res) {
     res.json(await vagas.listarRegimesContratacao());
   });
-  app.post("/vagas/cadastrar-vaga", async function (req, res) {
+  app.post("/vagas/cadastrar", async function (req, res) {
     const titulo = req.body.titulo;
     const empresa = req.body.empresa;
     const descricao = req.body.descricao;
     const status_vaga_id = req.body.status_vaga_id;
     const regime_contratacao_id = req.body.regime_contratacao_id;
 
-    let cadastro = vagas.cadastrarVaga(
+    let cadastro = await vagas.cadastrarVaga(
       titulo,
       empresa,
       descricao,
@@ -60,10 +60,10 @@ module.exports = function (app) {
     }
   });
 
-  app.delete("/vagas/excluir-vaga", async function (req, res) {
+  app.delete("/vagas/excluir", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let excluirVaga = vagas.excluirVaga(vaga_id);
+    let excluirVaga = await vagas.excluirVaga(vaga_id);
     if (excluirVaga) {
       res.json(defaultResponse(true, "Vaga excluida"));
     } else {
@@ -71,14 +71,19 @@ module.exports = function (app) {
     }
   });
 
-  app.put("/vagas/editar-vaga", async function (req, res) {
+  app.put("/vagas/editar", async function (req, res) {
+    const titulo = req.body.titulo;
+    const empresa = req.body.empresa;
+    const descricao = req.body.descricao;
+    const regime_contratacao_id = req.body.regime_contratacao_id;
     const vaga_id = req.body.vaga_id;
 
-    let editarVaga = vagas.editarVaga(
+    let editarVaga = await vagas.editarVaga(
       titulo,
       empresa,
       descricao,
-      regime_contratacao_id
+      regime_contratacao_id,
+      vaga_id
     );
     if (editarVaga) {
       res.json(defaultResponse(true, "Vaga editada"));
@@ -87,10 +92,13 @@ module.exports = function (app) {
     }
   });
 
-  app.put("/vagas/ativar-vaga", async function (req, res) {
+  app.put("/vagas/ativar", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let alterarStatusVaga = vagas.alterarStatusVaga(vaga_id, status_vaga_ativa);
+    let alterarStatusVaga = await vagas.alterarStatusVaga(
+      vaga_id,
+      status_vaga_ativa
+    );
     if (alterarStatusVaga) {
       res.json(defaultResponse(true, "Vaga ativada"));
     } else {
@@ -98,10 +106,10 @@ module.exports = function (app) {
     }
   });
 
-  app.put("/vagas/pausar-vaga", async function (req, res) {
+  app.put("/vagas/pausar", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let alterarStatusVaga = vagas.alterarStatusVaga(
+    let alterarStatusVaga = await vagas.alterarStatusVaga(
       vaga_id,
       status_vaga_pausada
     );
@@ -112,10 +120,10 @@ module.exports = function (app) {
     }
   });
 
-  app.put("/vagas/finalizar-vaga", async function (req, res) {
+  app.put("/vagas/finalizar", async function (req, res) {
     const vaga_id = req.body.vaga_id;
 
-    let alterarStatusVaga = vagas.alterarStatusVaga(
+    let alterarStatusVaga = await vagas.alterarStatusVaga(
       vaga_id,
       status_vaga_finalizada
     );
@@ -130,7 +138,7 @@ module.exports = function (app) {
     const candidato_id = req.body.candidato_id;
     const vaga_id = req.body.vaga_id;
 
-    let vagaAtiva = vagas.verificarVagaItiva(vaga_id);
+    let vagaAtiva = await vagas.verificarVagaItiva(vaga_id);
     if (vagaAtiva) {
       let candidaturaExistente =
         await candidatosVagas.verificarCandidaturaExistente(

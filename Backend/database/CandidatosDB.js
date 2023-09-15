@@ -3,10 +3,10 @@ const db = require("../util/db");
 const usuarios = require("./UsuariosDB");
 
 const listarCandidatos = async function (
-  nome,
-  email,
-  telefone,
-  cpf,
+  nome = "",
+  email = "",
+  telefone = "",
+  cpf = "",
   pagina = 1,
   linhasPorPagina = 20
 ) {
@@ -40,7 +40,35 @@ const listarCandidatos = async function (
   });
 };
 
-const cadastrarCandidato = async function (email, telefone, cpf, linkedin) {
+const listarCandidatoPorId = async function (candidato_id) {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "select * from candidatos where id = ?",
+      [candidato_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response.length > 0) {
+          resolve({
+            id: response[0].id,
+            telefone: response[0].telefone,
+            cpf: response[0].cpf,
+            linkedin: response[0].linkedin,
+            usuario_id: response[0].usuario_id,
+          });
+        } else {
+          resolve({});
+        }
+      }
+    );
+  });
+};
+
+const cadastrarCandidato = async function (
+  email,
+  telefone,
+  cpf,
+  linkedin = ""
+) {
   return new Promise(async (resolve) => {
     let usuario = await usuarios.listarUsuarioPorEmail(email);
 
@@ -66,18 +94,28 @@ const cadastrarCandidato = async function (email, telefone, cpf, linkedin) {
 
 const excluirCandidato = async function (candidato_id) {
   return new Promise((resolve) => {
-    let query = `
-    delete from candidatos_vaga where candidato_id = ?;
-    delete from candidatos where id = ?;
-    `;
+    let queryCandidatosVagas =
+      "delete from candidatos_vagas where candidato_id = ?; ";
+    let queryCandidatos = "delete from candidatos where id = ?;";
 
     db.connection.query(
-      query,
-      [candidato_id, candidato_id],
+      queryCandidatosVagas,
+      [candidato_id],
       function (err, response) {
         if (err) throw err;
         if (response) {
-          resolve(true);
+          db.connection.query(
+            queryCandidatos,
+            [candidato_id],
+            function (err, response) {
+              if (err) throw err;
+              if (response) {
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            }
+          );
         } else {
           resolve(false);
         }
@@ -90,28 +128,45 @@ const editarCandidato = async function (
   telefone,
   cpf,
   linkedin,
-  candidato_id,
   nome,
   email,
-  usuario_id
+  candidato_id
 ) {
-  return new Promise((resolve) => {
-    let query = `
-    update candidatos set telefone = ?, cpf = ?, linkedin = ? where id = ?;
-    update usuarios set nome = ?, email = ? where id = ?;
-    `;
-    db.connection.query(
-      query,
-      [telefone, cpf, linkedin, candidato_id, nome, email, usuario_id],
-      function (err, response) {
-        if (err) throw err;
-        if (response) {
-          resolve(true);
-        } else {
-          resolve(false);
+  return new Promise(async (resolve) => {
+    let candidato = await listarCandidatoPorId(candidato_id);
+
+    if (Object.keys(candidato).length > 0) {
+      let queryCandidatos =
+        "update candidatos set telefone = ?, cpf = ?, linkedin = ? where id = ?; ";
+      let queryUsuarios =
+        "update usuarios set nome = ?, email = ? where id = ?;";
+
+      db.connection.query(
+        queryCandidatos,
+        [telefone, cpf, linkedin, candidato_id],
+        function (err, response) {
+          if (err) throw err;
+          if (response) {
+            db.connection.query(
+              queryUsuarios,
+              [nome, email, candidato.usuario_id],
+              function (err, response) {
+                if (err) throw err;
+                if (response) {
+                  resolve(true);
+                } else {
+                  resolve(false);
+                }
+              }
+            );
+          } else {
+            resolve(false);
+          }
         }
-      }
-    );
+      );
+    } else {
+      resolve(false);
+    }
   });
 };
 

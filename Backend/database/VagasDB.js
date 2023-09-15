@@ -120,19 +120,29 @@ const cadastrarVaga = async function (
 };
 const excluirVaga = async function (vaga_id) {
   return new Promise((resolve) => {
-    let query = `
-    delete from candidatos_vaga where vaga_id = ?;
-    delete from vagas where id = ?;
-    `;
+    let queryCandidatosVagas =
+      "delete from candidatos_vagas where vaga_id = ?; ";
+    let queryVagas = "delete from vagas where id = ?;";
 
-    db.connection.query(query, [vaga_id, vaga_id], function (err, response) {
-      if (err) throw err;
-      if (response) {
-        resolve(true);
-      } else {
-        resolve(false);
+    db.connection.query(
+      queryCandidatosVagas,
+      [vaga_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response) {
+          db.connection.query(queryVagas, [vaga_id], function (err, response) {
+            if (err) throw err;
+            if (response) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          });
+        } else {
+          resolve(false);
+        }
       }
-    });
+    );
   });
 };
 
@@ -167,8 +177,10 @@ const editarVaga = async function (
       function (err, response) {
         if (err) throw err;
         if (response) {
+          console.log(response);
           resolve(true);
         } else {
+          console.log(response);
           resolve(false);
         }
       }
