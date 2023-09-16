@@ -13,8 +13,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { getScreenSize, refreshToken } from "../../utils/utils";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getByFilter } from "../../services/vagas";
+import DialogExcluir from "./Dialogs/Excluir";
+import DialogEditar from "./Dialogs/Editar";
+import DialogInserir from "./Dialogs/Inserir";
+import DialogExibir from "./Dialogs/Exibir";
 
 export default class Historico extends Component {
   state = {
@@ -22,26 +28,105 @@ export default class Historico extends Component {
     filtroEmpresa: "",
     filtroRegimeContratacao: "",
     filtroStatus: "",
+    vagas: [],
+    rows: [],
+    msgInserirAberta: false,
+    msgExibirAberta: false,
+    msgExcluirAberta: false,
+    msgEditarAberta: false,
+    dialogId: "",
+    dialogNome: "",
+    dialogData: [],
   };
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    this.listaVagas();
+  };
+
+  listaVagas = () => {
+    const listItems = getByFilter(
+      this.state.filtroTitulo,
+      this.state.filtroEmpresa,
+      this.state.filtroRegimeContratacao,
+      this.state.filtroStatus
+    );
+    listItems
+      .then((data) => {
+        let items = [];
+        data.data.map(function (item) {
+          items = items.concat({
+            id: item.id,
+            titulo: item.titulo,
+            empresa: item.empresa,
+            descricao: item.descricao,
+            status_vaga_id: item.status_vaga_id,
+            regime_contratacao_id: item.regime_contratacao_id,
+            status: item.status,
+            regime_contratacao: item.regime_contratacao,
+          });
+        });
+        this.setState({
+          vagas: items,
+          rows: items,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   handleUpdateTitulo = (value) => {
     this.setState({ filtroTitulo: value });
   };
-
   handleUpdateEmpresa = (value) => {
     this.setState({ filtroEmpresa: value });
   };
-
   handleUpdateRegimeContratacao = (value) => {
     this.setState({ filtroRegimeContratacao: value });
   };
-
   handleUpdateStatus = (value) => {
     this.setState({ filtroStatus: value });
   };
 
+  handleOpenMsgInserir = () => {
+    this.setState({ msgInserirAberta: true });
+  };
+
+  handleCloseMsgExibir = () => {
+    this.setState({ msgExibirAberta: false });
+  };
+  handleCloseMsgExcluir = () => {
+    this.setState({ msgExcluirAberta: false });
+  };
+  handleCloseMsgEditar = () => {
+    this.setState({ msgEditarAberta: false });
+  };
+  handleCloseMsgInserir = () => {
+    this.setState({ msgInserirAberta: false });
+  };
+
   render() {
+    let handleOpenMsgExcluir = (id, nome) => {
+      this.setState({
+        msgExcluirAberta: true,
+        dialogId: id,
+        dialogNome: nome,
+      });
+    };
+    let handleOpenMsgEditar = (id, data) => {
+      this.setState({
+        msgEditarAberta: true,
+        dialogId: id,
+        dialogData: data,
+      });
+    };
+    let handleOpenMsgExibir = (id, data) => {
+      this.setState({
+        msgExibirAberta: true,
+        dialogId: id,
+        dialogData: data,
+      });
+    };
+
     const columns = [
       { field: "id", headerName: "ID", width: 90 },
       {
@@ -61,11 +146,13 @@ export default class Historico extends Component {
         headerName: "Regime de Contratação",
         width: 160,
       },
+
       {
         field: "status",
         headerName: "Status",
         width: 160,
       },
+
       {
         field: "acoes",
         headerName: "Ações",
@@ -78,7 +165,17 @@ export default class Historico extends Component {
               <IconButton
                 color="secondary"
                 sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgExibir(params.row.id, [{}])}
+                onClick={() =>
+                  handleOpenMsgExibir(params.row.id, [
+                    {
+                      titulo: params.row.titulo,
+                      empresa: params.row.empresa,
+                      descricao: params.row.descricao,
+                      status: params.row.status,
+                      regime_contratacao: params.row.regime_contratacao,
+                    },
+                  ])
+                }
               >
                 <VisibilityIcon />
               </IconButton>
@@ -86,7 +183,16 @@ export default class Historico extends Component {
               <IconButton
                 color="primary"
                 sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgEditar(params.row.id, [{}])}
+                onClick={() =>
+                  handleOpenMsgEditar(params.row.id, [
+                    {
+                      titulo: params.row.titulo,
+                      empresa: params.row.empresa,
+                      descricao: params.row.descricao,
+                      regime_contratacao_id: params.row.regime_contratacao_id,
+                    },
+                  ])
+                }
               >
                 <EditIcon color="info" />
               </IconButton>
@@ -94,7 +200,9 @@ export default class Historico extends Component {
               <IconButton
                 color="error"
                 sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgExcluir(params.row.id, [{}])}
+                onClick={() =>
+                  handleOpenMsgExcluir(params.row.id, params.row.titulo)
+                }
               >
                 <DeleteIcon />
               </IconButton>
@@ -104,27 +212,53 @@ export default class Historico extends Component {
       },
     ];
 
-    const rows = [
-      {
-        id: 1,
-        titulo: "Dev jr",
-        empresa: "Waux",
-        regime_contratacao: "CLT",
-        status: "Ativa",
-      },
-      {
-        id: 2,
-        titulo: "Dev sr",
-        empresa: "Waux",
-        regime_contratacao: "PJ",
-        status: "Ativa",
-      },
-    ];
     return (
       <>
+        <DialogExcluir
+          title={
+            <>
+              {"Deseja excluir a vaga "}
+              <u>{this.state.dialogNome}</u> {"?"}
+            </>
+          }
+          id={this.state.dialogId}
+          open={this.state.msgExcluirAberta}
+          handleCloseMsg={this.handleCloseMsgExcluir}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgExcluir}>Cancelar</Button>
+        </DialogExcluir>
+
+        <DialogEditar
+          title="Editar Vaga"
+          id={this.state.dialogId}
+          data={this.state.dialogData}
+          open={this.state.msgEditarAberta}
+          handleCloseMsg={this.handleCloseMsgEditar}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgEditar}>Cancelar</Button>
+        </DialogEditar>
+        <DialogInserir
+          title="Cadastrar Vaga"
+          open={this.state.msgInserirAberta}
+          handleCloseMsg={this.handleCloseMsgInserir}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgInserir}>Cancelar</Button>
+        </DialogInserir>
+        <DialogExibir
+          title="Detalhe da Vaga"
+          data={this.state.dialogData}
+          open={this.state.msgExibirAberta}
+          handleCloseMsg={this.handleCloseMsgExibir}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgExibir}>Fechar</Button>
+        </DialogExibir>
         <Stack>
           <Grid container>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={10} md={10} lg={10}>
               <Box>
                 <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
                   <TextField
@@ -160,10 +294,24 @@ export default class Historico extends Component {
                 <FormControl sx={{ mb: 1, mr: 1, minWidth: 120 }}>
                   <Button
                     variant="contained"
+                    color="info"
                     endIcon={<FilterAltOutlinedIcon />}
-                    onClick={() => this.listUsuarios()}
+                    onClick={() => this.listaVagas()}
                   >
                     Filtrar
+                  </Button>
+                </FormControl>
+              </Box>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box sx={{ textAlign: "right" }}>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 120 }} size="small">
+                  <Button
+                    variant="contained"
+                    endIcon={<AddIcon />}
+                    onClick={() => this.handleOpenMsgInserir()}
+                  >
+                    Cadastrar Vaga
                   </Button>
                 </FormControl>
               </Box>
@@ -178,7 +326,7 @@ export default class Historico extends Component {
             >
               <DataGrid
                 disableColumnMenu
-                rows={rows}
+                rows={this.state.rows}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}

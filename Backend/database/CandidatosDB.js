@@ -11,7 +11,8 @@ const listarCandidatos = async function (
   linhasPorPagina = 20
 ) {
   return new Promise((resolve) => {
-    let offset = (pagina - 1) * linhasPorPagina;
+    linhasPorPagina = parseInt(linhasPorPagina);
+    let offset = (parseInt(pagina) - 1) * linhasPorPagina;
 
     let query = "select c.*, u.nome, u.email from candidatos c ";
     query += "inner join usuarios u on u.id = c.usuario_id ";

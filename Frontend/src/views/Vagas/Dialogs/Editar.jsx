@@ -5,6 +5,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormLabel,
   Box,
   Grid,
   TextField,
@@ -83,11 +88,11 @@ export default class Index extends Component {
                     <Grid item xs={6} md={6} lg={6}>
                       <Box>
                         <TextField
-                          label="Nome"
+                          label="Titulo"
                           fullWidth
-                          defaultValue={item.nome}
+                          defaultValue={item.titulo}
                           onChange={(e) =>
-                            this.handleChangeNome(e.target.value)
+                            this.handleChangeTitulo(e.target.value)
                           }
                         />
                       </Box>
@@ -95,37 +100,28 @@ export default class Index extends Component {
                     <Grid item xs={6} md={6} lg={6}>
                       <Box>
                         <TextField
-                          label="E-mail"
+                          label="Empresa"
                           fullWidth
-                          defaultValue={item.email}
+                          defaultValue={item.empresa}
                           onChange={(e) =>
-                            this.handleChangeEmail(e.target.value)
+                            this.handleChangeEmpresa(e.target.value)
                           }
                         />
                       </Box>
                     </Grid>
                   </Grid>
                   <Grid container spacing={3} mt={1}>
-                    <Grid item xs={6} md={6} lg={6}>
+                    <Grid item xs={12} md={12} lg={12}>
                       <Box>
                         <TextField
-                          label="CPF"
+                          label="Descricao"
                           fullWidth
-                          defaultValue={item.cpf}
-                          onChange={(e) => this.handleChangeCpf(e.target.value)}
-                        />
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={6} md={6} lg={6}>
-                      <Box>
-                        <TextField
-                          label="Telefone"
-                          fullWidth
-                          defaultValue={item.telefone}
+                          defaultValue={item.descricao}
                           onChange={(e) =>
-                            this.handleChangeTelefone(e.target.value)
+                            this.handleChangeDescricao(e.target.value)
                           }
+                          rows={5}
+                          multiline
                         />
                       </Box>
                     </Grid>
@@ -134,14 +130,36 @@ export default class Index extends Component {
                   <Grid container spacing={3} mt={1}>
                     <Grid item xs={6} md={6} lg={6}>
                       <Box>
-                        <TextField
-                          label="Linkedin"
-                          fullWidth
-                          defaultValue={item.linkedin}
-                          onChange={(e) =>
-                            this.handleChangeLinkedin(e.target.value)
-                          }
-                        />
+                        <FormControl>
+                          <FormLabel id="regime">
+                            Regime de Contratação
+                          </FormLabel>
+                          <RadioGroup
+                            row
+                            aria-labelledby="regime"
+                            name="row-radio-buttons-group"
+                            defaultValue={item.regime_contratacao_id}
+                            onChange={(e) =>
+                              this.handleChangeRegimeContratacao(e.target.value)
+                            }
+                          >
+                            <FormControlLabel
+                              value={1}
+                              control={<Radio />}
+                              label="CLT"
+                            />
+                            <FormControlLabel
+                              value={2}
+                              control={<Radio />}
+                              label="Pessoa Jurídica"
+                            />
+                            <FormControlLabel
+                              value={3}
+                              control={<Radio />}
+                              label="Freelancer"
+                            />
+                          </RadioGroup>
+                        </FormControl>
                       </Box>
                     </Grid>
                   </Grid>

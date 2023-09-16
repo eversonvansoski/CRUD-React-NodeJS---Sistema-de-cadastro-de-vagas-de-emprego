@@ -1,17 +1,19 @@
 import { get, post, put, destroy } from "./_base";
 
-let getAll = () => {
-  return get("/candidatos");
+let getByFilter = (nome, email, telefone, cpf) => {
+  let query =
+    "?nome=" +
+    nome +
+    "&email=" +
+    email +
+    "&telefone=" +
+    telefone +
+    "&cpf=" +
+    cpf;
+
+  return get("/candidatos" + query);
 };
-let getById = (id) => {
-  return get("/ClientSignature/" + id);
-};
-let deleteAssinatura = (id) => {
-  return destroy("/ClientSignature/" + id);
-};
-let sendMail = (userId) => {
-  return post("/ClientSignature/SendEmail?userId=" + userId + "&message=");
-};
+
 let create = (userId, signatureDate, signatureExpirationDate) => {
   let body = {
     id: 0,
@@ -33,4 +35,4 @@ let update = (userId, signatureId, isActive) => {
   return put("/ClientSignature/" + userId, body);
 };
 
-export { getAll, getById, create, sendMail, update, deleteAssinatura };
+export { getByFilter, create, update };

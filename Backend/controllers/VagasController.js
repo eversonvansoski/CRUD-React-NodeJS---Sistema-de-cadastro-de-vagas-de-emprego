@@ -13,13 +13,13 @@ module.exports = function (app) {
     res.json(await vagas.listarVagasPorUsuario(usuario_id));
   });
   app.get("/vagas", async function (req, res) {
-    const pagina = req.body.pagina;
-    const linhasPorPagina = req.body.linhasPorPagina;
-    const titulo = req.body.titulo;
-    const empresa = req.body.empresa;
-    const descricao = req.body.descricao;
-    const status_vaga = req.body.status_vaga;
-    const regime_contratacao = req.body.regime_contratacao;
+    const pagina = req.query.pagina;
+    const linhasPorPagina = req.query.linhasPorPagina;
+    const titulo = req.query.titulo;
+    const empresa = req.query.empresa;
+    const descricao = req.query.descricao;
+    const status_vaga = req.query.status_vaga;
+    const regime_contratacao = req.query.regime_contratacao;
 
     res.json(
       await vagas.listarVagas(

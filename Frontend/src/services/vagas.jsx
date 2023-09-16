@@ -1,125 +1,40 @@
-import { get, post, put, destroy, putFiles, baseUrl } from "./_base";
-import axios from "axios";
+import { get, post, put, destroy } from "./_base";
 
-let getAll = () => {
-  return get("/Users");
+let getByFilter = (titulo, empresa, regimeContratacao, status) => {
+  let query =
+    "?titulo=" +
+    titulo +
+    "&empresa=" +
+    empresa +
+    "&status_vaga=" +
+    status +
+    "&regime_contratacao=" +
+    regimeContratacao;
+
+  return get("/vagas" + query);
 };
-let getPhoto = (userId) => {
-  return get("/Users/GetPhoto/" + userId);
-};
-let getById = (id) => {
-  return get("/Users/" + id);
-};
-let deleteUser = (userId) => {
-  return destroy("/Users/" + userId);
-};
-let resendPassword = (login) => {
-  return get("/Users/ResendPassword/" + login);
-};
-let TokenValidate = (token, password, oldPassword) => {
+
+let create = (vagaId, titulo, empresa, regimeContratacaoId, descricao) => {
   let body = {
-    password: password,
-    oldPassword: oldPassword,
+    vaga_id: vagaId,
+    titulo: titulo,
+    empresa: empresa,
+    descricao: descricao,
+    regime_contratacao_id: regimeContratacaoId,
+    status_vaga_id: 1,
   };
-  return post("/Users/TokenValidate/" + token, body);
+  return post("/vagas/cadastrar", body);
 };
 
-let create = (
-  cpfCnpj,
-  nome,
-  email,
-  cep,
-  endereco,
-  numero,
-  cidade,
-  bairro,
-  estado,
-  complemento,
-  celular,
-  telefone,
-  perfilId
-) => {
+let update = (vagaId, titulo, empresa, regimeContratacaoId, descricao) => {
   let body = {
-    name: nome,
-    fantasyName: nome,
-    userKey: cpfCnpj,
-    email: email,
-    cell: celular,
-    telephone: telefone,
-    cep: cep,
-    street: endereco,
-    number: numero,
-    district: bairro,
-    city: cidade,
-    state: estado,
-    complement: complemento,
-    roleId: perfilId,
+    vaga_id: vagaId,
+    titulo: titulo,
+    empresa: empresa,
+    descricao: descricao,
+    regime_contratacao_id: regimeContratacaoId,
   };
-  return post("/Users/", body);
+  return put("/vagas/editar", body);
 };
 
-let update = (
-  userId,
-  cpfCnpj,
-  nome,
-  email,
-  cep,
-  endereco,
-  numero,
-  cidade,
-  bairro,
-  estado,
-  complemento,
-  celular,
-  telefone,
-  perfilId,
-  enabled
-) => {
-  let body = {
-    id: userId,
-    name: nome,
-    fantasyName: nome,
-    userKey: cpfCnpj,
-    email: email,
-    cell: celular,
-    telephone: telefone,
-    cep: cep,
-    street: endereco,
-    number: numero,
-    district: bairro,
-    city: cidade,
-    state: estado,
-    complement: complemento,
-    isOnline: true,
-    validatedEmail: true,
-    roleId: perfilId,
-    enabled: enabled,
-  };
-  return put("/Users/" + userId, body);
-};
-
-//metodo excepcional para chamada da deição do perfil
-let updateProfile = (userId, email, file) => {
-  return putFiles("Users/Update/" + userId, file, email, userId);
-};
-
-let changePassword = (currentPassword, newPassword) => {
-  let body = {
-    password: newPassword,
-    oldPassword: currentPassword,
-  };
-  return post("/Users/ChangePassword/", body);
-};
-
-export {
-  getAll,
-  getById,
-  getPhoto,
-  deleteUser,
-  create,
-  update,
-  updateProfile,
-  resendPassword,
-  TokenValidate,
-  changePassword,
-};
+export { getByFilter, create, update };

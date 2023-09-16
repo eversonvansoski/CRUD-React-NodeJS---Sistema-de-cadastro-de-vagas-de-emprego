@@ -5,6 +5,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormLabel,
   Box,
   Grid,
   TextField,
@@ -14,20 +19,12 @@ import {
 
 export default class Index extends Component {
   state = {
-    Cpf: "",
-    nome: "",
-    email: "",
-    cep: "",
-    endereco: "",
-    numero: "",
-    cidade: "",
-    bairro: "",
-    estado: "",
-    complemento: "",
-    celular: "",
-    telefone: "",
-    perfilId: 0,
+    titulo: "",
+    empresa: "",
+    eescricao: "",
+    regimeContratacao: 0,
     erro: false,
+    msgErro: "",
   };
 
   alterarUsuario = () => {};
@@ -37,7 +34,7 @@ export default class Index extends Component {
       <Grid container mt={3}>
         <Grid item xs>
           <Alert severity="error" mt={3}>
-            Preencha todos os campos
+            {this.state.msgErro}
           </Alert>
         </Grid>
       </Grid>
@@ -46,20 +43,18 @@ export default class Index extends Component {
     );
   };
 
-  handleChangeCpf = (value) => {
-    this.setState({ Cpf: value });
+  handleChangeTitulo = (value) => {
+    this.setState({ titulo: value });
   };
-  handleChangeNome = (value) => {
-    this.setState({ nome: value });
+  handleChangeEmpresa = (value) => {
+    this.setState({ empresa: value });
   };
-  handleChangeEmail = (value) => {
-    this.setState({ email: value });
+  handleChangeDescricao = (value) => {
+    this.setState({ descricao: value });
   };
-  handleChangeTelefone = (value) => {
-    this.setState({ telefone: value });
-  };
-  handleChangeLinkedin = (value) => {
-    this.setState({ linkedin: value });
+  handleChangeRegimeContratacao = (value) => {
+    console.log(value);
+    this.setState({ regimeContratacao: value });
   };
 
   render() {
@@ -80,41 +75,33 @@ export default class Index extends Component {
                 <Grid item xs={6} md={6} lg={6}>
                   <Box>
                     <TextField
-                      label="Nome"
+                      label="Titulo"
                       fullWidth
-                      onChange={(e) => this.handleChangeNome(e.target.value)}
+                      onChange={(e) => this.handleChangeTitulo(e.target.value)}
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={6} md={6} lg={6}>
                   <Box>
                     <TextField
-                      label="E-mail"
+                      label="Empresa"
                       fullWidth
-                      onChange={(e) => this.handleChangeEmail(e.target.value)}
+                      onChange={(e) => this.handleChangeEmpresa(e.target.value)}
                     />
                   </Box>
                 </Grid>
               </Grid>
               <Grid container spacing={3} mt={1}>
-                <Grid item xs={6} md={6} lg={6}>
+                <Grid item xs={12} md={12} lg={12}>
                   <Box>
                     <TextField
-                      label="CPF"
-                      fullWidth
-                      onChange={(e) => this.handleChangeCpf(e.target.value)}
-                    />
-                  </Box>
-                </Grid>
-
-                <Grid item xs={6} md={6} lg={6}>
-                  <Box>
-                    <TextField
-                      label="Telefone"
+                      label="Descricao"
                       fullWidth
                       onChange={(e) =>
-                        this.handleChangeTelefone(e.target.value)
+                        this.handleChangeDescricao(e.target.value)
                       }
+                      rows={5}
+                      multiline
                     />
                   </Box>
                 </Grid>
@@ -123,13 +110,33 @@ export default class Index extends Component {
               <Grid container spacing={3} mt={1}>
                 <Grid item xs={6} md={6} lg={6}>
                   <Box>
-                    <TextField
-                      label="Linkedin"
-                      fullWidth
-                      onChange={(e) =>
-                        this.handleChangeLinkedin(e.target.value)
-                      }
-                    />
+                    <FormControl>
+                      <FormLabel id="regime">Regime de Contratação</FormLabel>
+                      <RadioGroup
+                        row
+                        aria-labelledby="regime"
+                        name="row-radio-buttons-group"
+                        onChange={(e) =>
+                          this.handleChangeRegimeContratacao(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value={1}
+                          control={<Radio />}
+                          label="CLT"
+                        />
+                        <FormControlLabel
+                          value={2}
+                          control={<Radio />}
+                          label="Pessoa Jurídica"
+                        />
+                        <FormControlLabel
+                          value={3}
+                          control={<Radio />}
+                          label="Freelancer"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </Box>
                 </Grid>
               </Grid>

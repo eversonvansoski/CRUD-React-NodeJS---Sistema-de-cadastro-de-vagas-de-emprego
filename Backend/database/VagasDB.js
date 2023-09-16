@@ -10,7 +10,8 @@ const listarVagas = async function (
   linhasPorPagina = 20
 ) {
   return new Promise((resolve) => {
-    let offset = (pagina - 1) * linhasPorPagina;
+    linhasPorPagina = parseInt(linhasPorPagina);
+    let offset = (parseInt(pagina) - 1) * linhasPorPagina;
 
     let query =
       "select v.*, sv.descricao as status, rc.descricao as regime_contratacao from vagas v ";

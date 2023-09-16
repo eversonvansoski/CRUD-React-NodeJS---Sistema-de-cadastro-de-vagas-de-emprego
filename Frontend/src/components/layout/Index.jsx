@@ -96,7 +96,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer(props) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleDrawerOpen = () => {
@@ -160,11 +160,11 @@ export default function MiniDrawer(props) {
                   fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "primary",
+                  color: "#2a9145",
                   textDecoration: "none",
                 }}
               >
-                TESTE {/* HOUER */}
+                TESTE HOUER
               </Typography>
 
               <Box sx={{ flexGrow: 0 }}>

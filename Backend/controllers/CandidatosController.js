@@ -4,12 +4,13 @@ const defaultResponse = require("../util/defaultResponse");
 
 module.exports = function (app) {
   app.get("/candidatos", async function (req, res) {
-    const nome = req.body.nome;
-    const email = req.body.email;
-    const telefone = req.body.telefone;
-    const cpf = req.body.cpf;
-    const pagina = req.body.pagina;
-    const linhasPorPagina = req.body.linhasPorPagina;
+    const nome = req.query.nome;
+    const email = req.query.email;
+    const telefone = req.query.telefone;
+    const cpf = req.query.cpf;
+    const pagina = req.query.pagina;
+    const linhasPorPagina = req.query.linhasPorPagina;
+
     res.json(
       await candidatos.listarCandidatos(
         nome,

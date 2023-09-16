@@ -7,14 +7,13 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { deleteContent } from "../../../services/conteudos";
-import { refreshToken } from "../../../utils/utils";
+//import { deleteContent } from "../../../services/conteudos";
 
 export default class Index extends Component {
   state = {};
 
   handleExcluir = (id) => {
-    const service = deleteContent(id);
+    /*     const service = deleteContent(id);
     service
       .then((data) => {
         this.props.handleCloseMsgExcluir();
@@ -22,7 +21,7 @@ export default class Index extends Component {
       })
       .catch((e) => {
         e.response.status === 401 && refreshToken();
-      });
+      }); */
   };
 
   render() {
@@ -33,10 +32,10 @@ export default class Index extends Component {
         fullWidth
         maxWidth={"sm"}
       >
-        <DialogTitle>Confirmar a exclusão da vaga?</DialogTitle>
+        <DialogTitle>{this.props.title}</DialogTitle>
 
         <DialogContent>
-          <DialogContentText>{this.props.titulo}</DialogContentText>
+          <DialogContentText></DialogContentText>
         </DialogContent>
         <DialogActions>
           {this.props.children}

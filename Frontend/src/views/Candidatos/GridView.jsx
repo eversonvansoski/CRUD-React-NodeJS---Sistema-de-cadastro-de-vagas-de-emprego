@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import AddIcon from "@mui/icons-material/Add";
 import { getScreenSize, refreshToken } from "../../utils/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAll } from "../../services/candidatos";
+import { getByFilter } from "../../services/candidatos";
 import DialogExcluir from "./Dialogs/Excluir";
 import DialogEditar from "./Dialogs/Editar";
 import DialogInserir from "./Dialogs/Inserir";
@@ -25,24 +26,44 @@ export default class Historico extends Component {
     filtroEmail: "",
     filtroTelefone: "",
     filtroCPF: "",
+    candidatos: [],
+    rows: [],
     msgInserirAberta: false,
     msgExcluirAberta: false,
     msgEditarAberta: false,
     dialogId: "",
     dialogNome: "",
-    dialogData: {},
+    dialogData: [],
   };
   componentDidMount = () => {
-    console.log("ue");
     this.listaCandidatos();
   };
 
   listaCandidatos = () => {
-    const listItems = getAll();
+    const listItems = getByFilter(
+      this.state.filtroNome,
+      this.state.filtroEmail,
+      this.state.filtroTelefone,
+      this.state.filtroCPF
+    );
     listItems
       .then((data) => {
-        let rows = data.data.map(function (item) {});
-        console.log(rows);
+        let items = [];
+        data.data.map(function (item) {
+          items = items.concat({
+            id: item.id,
+            telefone: item.telefone,
+            cpf: item.cpf,
+            linkedin: item.linkedin,
+            usuario_id: item.usuario_id,
+            nome: item.nome,
+            email: item.email,
+          });
+        });
+        this.setState({
+          candidatos: items,
+          rows: items,
+        });
       })
       .catch((e) => {
         console.log(e);
@@ -65,7 +86,6 @@ export default class Historico extends Component {
   handleOpenMsgInserir = () => {
     this.setState({ msgInserirAberta: true });
   };
-
   handleCloseMsgExcluir = () => {
     this.setState({ msgExcluirAberta: false });
   };
@@ -132,14 +152,6 @@ export default class Historico extends Component {
           return (
             <>
               <IconButton
-                color="secondary"
-                sx={{ cursor: "pointer" }}
-                //onClick={() => handleOpenMsgExibir(params.row.id, [{}])}
-              >
-                <VisibilityIcon />
-              </IconButton>
-
-              <IconButton
                 color="primary"
                 sx={{ cursor: "pointer" }}
                 onClick={() =>
@@ -172,24 +184,6 @@ export default class Historico extends Component {
       },
     ];
 
-    const rows = [
-      {
-        id: 1,
-        nome: "Everson Vansoski",
-        email: "eversonvansoski@gmail.com",
-        telefone: "31988885555",
-        cpf: "12345678900",
-        linkedin: "https://linkedin.com",
-      },
-      {
-        id: 2,
-        nome: "Joao Silva",
-        email: "joalsilva@gmail.com",
-        telefone: "31986458888",
-        cpf: "32145678900",
-        linkedin: "https://linkedin.com",
-      },
-    ];
     return (
       <>
         <DialogExcluir
@@ -202,7 +196,7 @@ export default class Historico extends Component {
           id={this.state.dialogId}
           open={this.state.msgExcluirAberta}
           handleCloseMsg={this.handleCloseMsgExcluir}
-          listCandidatos={this.listCandidatos}
+          listaCandidatos={this.listaCandidatos}
         >
           <Button onClick={this.handleCloseMsgExcluir}>Cancelar</Button>
         </DialogExcluir>
@@ -212,23 +206,23 @@ export default class Historico extends Component {
           id={this.state.dialogId}
           data={this.state.dialogData}
           open={this.state.msgEditarAberta}
-          /*           handleCloseMsg={this.handleCloseMsgEditar}
-          listCandidatos={this.listCandidatos} */
+          handleCloseMsg={this.handleCloseMsgEditar}
+          listaCandidatos={this.listaCandidatos}
         >
           <Button onClick={this.handleCloseMsgEditar}>Cancelar</Button>
         </DialogEditar>
-        {/*  <DialogInserir
+        <DialogInserir
           title="Cadastrar Candidato"
           open={this.state.msgInserirAberta}
           handleCloseMsg={this.handleCloseMsgInserir}
-          listCandidatos={this.listCandidatos}
+          listaCandidatos={this.listaCandidatos}
         >
           <Button onClick={this.handleCloseMsgInserir}>Cancelar</Button>
         </DialogInserir>
- */}
+
         <Stack>
           <Grid container>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={10} md={10} lg={10}>
               <Box>
                 <FormControl sx={{ mb: 1, mr: 1, minWidth: 200 }}>
                   <TextField
@@ -263,9 +257,23 @@ export default class Historico extends Component {
                   <Button
                     variant="contained"
                     endIcon={<FilterAltOutlinedIcon />}
-                    onClick={() => this.listUsuarios()}
+                    onClick={() => this.listaCandidatos()}
+                    color="info"
                   >
                     Filtrar
+                  </Button>
+                </FormControl>
+              </Box>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box sx={{ textAlign: "right" }}>
+                <FormControl sx={{ mb: 1, mr: 1, minWidth: 120 }} size="small">
+                  <Button
+                    variant="contained"
+                    endIcon={<AddIcon />}
+                    onClick={() => this.handleOpenMsgInserir()}
+                  >
+                    Cadastrar Candidato
                   </Button>
                 </FormControl>
               </Box>
@@ -280,7 +288,7 @@ export default class Historico extends Component {
             >
               <DataGrid
                 disableColumnMenu
-                rows={rows}
+                rows={this.state.rows}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
