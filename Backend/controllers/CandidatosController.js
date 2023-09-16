@@ -23,8 +23,8 @@ module.exports = function (app) {
     );
   });
 
-  app.delete("/candidatos/excluir", async function (req, res) {
-    const candidato_id = req.body.candidato_id;
+  app.delete("/candidatos/excluir/candidato_id:", async function (req, res) {
+    const candidato_id = req.params.candidato_id;
 
     let excluirCandidato = await candidatos.excluirCandidato(candidato_id);
     if (excluirCandidato) {

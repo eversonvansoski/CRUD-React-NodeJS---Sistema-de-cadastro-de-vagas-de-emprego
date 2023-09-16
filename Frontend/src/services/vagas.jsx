@@ -1,6 +1,6 @@
 import { get, post, put, destroy } from "./_base";
 
-let getByFilter = (titulo, empresa, regimeContratacao, status) => {
+let listarPorFiltro = (titulo, empresa, regimeContratacao, status) => {
   let query =
     "?titulo=" +
     titulo +
@@ -14,19 +14,18 @@ let getByFilter = (titulo, empresa, regimeContratacao, status) => {
   return get("/vagas" + query);
 };
 
-let create = (vagaId, titulo, empresa, regimeContratacaoId, descricao) => {
+let criar = (titulo, empresa, descricao, regimeContratacaoId) => {
   let body = {
-    vaga_id: vagaId,
     titulo: titulo,
     empresa: empresa,
     descricao: descricao,
     regime_contratacao_id: regimeContratacaoId,
-    status_vaga_id: 1,
   };
+
   return post("/vagas/cadastrar", body);
 };
 
-let update = (vagaId, titulo, empresa, regimeContratacaoId, descricao) => {
+let editar = (vagaId, titulo, empresa, descricao, regimeContratacaoId) => {
   let body = {
     vaga_id: vagaId,
     titulo: titulo,
@@ -37,4 +36,26 @@ let update = (vagaId, titulo, empresa, regimeContratacaoId, descricao) => {
   return put("/vagas/editar", body);
 };
 
-export { getByFilter, create, update };
+let ativar = (vagaId) => {
+  let body = {
+    vaga_id: vagaId,
+  };
+  return put("/vagas/ativar", body);
+};
+let pausar = (vagaId) => {
+  let body = {
+    vaga_id: vagaId,
+  };
+  return put("/vagas/pausar", body);
+};
+let finalizar = (vagaId) => {
+  let body = {
+    vaga_id: vagaId,
+  };
+  return put("/vagas/finalizar", body);
+};
+let excluir = (vagaId) => {
+  return destroy("/vagas/excluir/" + vagaId);
+};
+
+export { listarPorFiltro, criar, editar, ativar, pausar, finalizar, excluir };

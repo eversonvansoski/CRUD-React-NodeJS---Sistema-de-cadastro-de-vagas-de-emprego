@@ -6,6 +6,7 @@ const verifyJWT = require("../util/verifyJWT");
 const status_vaga_ativa = 1;
 const status_vaga_pausada = 2;
 const status_vaga_finalizada = 3;
+const msg_preencha_todos_campos = "Preencha todos os campos";
 
 module.exports = function (app) {
   app.get("/vagas/minhas-vagas", async function (req, res) {
@@ -43,26 +44,27 @@ module.exports = function (app) {
     const titulo = req.body.titulo;
     const empresa = req.body.empresa;
     const descricao = req.body.descricao;
-    const status_vaga_id = req.body.status_vaga_id;
     const regime_contratacao_id = req.body.regime_contratacao_id;
-
-    let cadastro = await vagas.cadastrarVaga(
-      titulo,
-      empresa,
-      descricao,
-      status_vaga_id,
-      regime_contratacao_id
-    );
-    if (cadastro) {
-      res.json(defaultResponse(true, "Vaga cadastrada"));
+    if (!titulo || !empresa || !descricao || !regime_contratacao_id) {
+      res.json(defaultResponse(false, msg_preencha_todos_campos));
     } else {
-      res.json(defaultResponse(false, "Erro ao cadastrar a vaga"));
+      let cadastro = await vagas.cadastrarVaga(
+        titulo,
+        empresa,
+        descricao,
+        regime_contratacao_id
+      );
+      if (cadastro) {
+        res.json(defaultResponse(true, "Vaga cadastrada"));
+      } else {
+        res.json(defaultResponse(false, "Erro ao cadastrar a vaga"));
+      }
     }
   });
 
-  app.delete("/vagas/excluir", async function (req, res) {
-    const vaga_id = req.body.vaga_id;
-
+  app.delete("/vagas/excluir/:vaga_id", async function (req, res) {
+    const vaga_id = req.params.vaga_id;
+    console.log(vaga_id);
     let excluirVaga = await vagas.excluirVaga(vaga_id);
     if (excluirVaga) {
       res.json(defaultResponse(true, "Vaga excluida"));
@@ -78,17 +80,28 @@ module.exports = function (app) {
     const regime_contratacao_id = req.body.regime_contratacao_id;
     const vaga_id = req.body.vaga_id;
 
-    let editarVaga = await vagas.editarVaga(
-      titulo,
-      empresa,
-      descricao,
-      regime_contratacao_id,
-      vaga_id
-    );
-    if (editarVaga) {
-      res.json(defaultResponse(true, "Vaga editada"));
-    } else {
-      res.json(defaultResponse(false, "Erro ao editar a vaga"));
+    if (
+      !vaga_id ||
+      !titulo ||
+      !empresa ||
+      !descricao ||
+      !regime_contratacao_id
+    ) {
+      res.json(defaultResponse(false, msg_preencha_todos_campos));
+    }
+    {
+      let editarVaga = await vagas.editarVaga(
+        titulo,
+        empresa,
+        descricao,
+        regime_contratacao_id,
+        vaga_id
+      );
+      if (editarVaga) {
+        res.json(defaultResponse(true, "Vaga editada"));
+      } else {
+        res.json(defaultResponse(false, "Erro ao editar a vaga"));
+      }
     }
   });
 

@@ -101,13 +101,12 @@ const cadastrarVaga = async function (
   titulo,
   empresa,
   descricao,
-  status_vaga_id,
   regime_contratacao_id
 ) {
   return new Promise((resolve) => {
     db.connection.query(
-      "insert into vagas (titulo, empresa, descricao, status_vaga_id, regime_contratacao_id) values (?, ?, ?, ?, ?);",
-      [titulo, empresa, descricao, status_vaga_id, regime_contratacao_id],
+      "insert into vagas (titulo, empresa, descricao, status_vaga_id, regime_contratacao_id) values (?, ?, ?, 1, ?);",
+      [titulo, empresa, descricao, regime_contratacao_id],
       function (err, response) {
         if (err) throw err;
         if (response) {

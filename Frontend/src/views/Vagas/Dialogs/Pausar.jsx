@@ -7,11 +7,11 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { excluir } from "../../../services/vagas";
+import { pausar } from "../../../services/vagas";
 
 export default class Index extends Component {
-  handleExcluir = (id) => {
-    const service = excluir(id);
+  handlePausar = (id) => {
+    const service = pausar(id);
     service
       .then((data) => {
         if (!data.data.success) {
@@ -43,9 +43,9 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={() => this.handleExcluir(this.props.id)}
+            onClick={() => this.handlePausar(this.props.id)}
           >
-            Excluir
+            Pausar
           </Button>
         </DialogActions>
       </Dialog>

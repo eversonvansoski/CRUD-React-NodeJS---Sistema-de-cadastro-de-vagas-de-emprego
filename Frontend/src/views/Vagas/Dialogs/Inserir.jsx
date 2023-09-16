@@ -16,18 +16,38 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import { criar } from "../../../services/vagas";
 
 export default class Index extends Component {
   state = {
     titulo: "",
     empresa: "",
-    eescricao: "",
+    descricao: "",
     regimeContratacao: 0,
     erro: false,
     msgErro: "",
   };
 
-  alterarUsuario = () => {};
+  cadastrarVaga = () => {
+    const listItems = criar(
+      this.state.titulo,
+      this.state.empresa,
+      this.state.descricao,
+      this.state.regimeContratacao
+    );
+    listItems
+      .then((data) => {
+        if (!data.data.success) {
+          this.setState({ erro: false, msgErro: data.data.msg });
+        } else {
+          this.props.handleCloseMsg();
+          this.props.listaVagas();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   msgError = () => {
     return this.state.erro ? (
@@ -147,7 +167,7 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={(event, value) => this.alterarUsuario()}
+            onClick={(event, value) => this.cadastrarVaga()}
           >
             Confirmar
           </Button>

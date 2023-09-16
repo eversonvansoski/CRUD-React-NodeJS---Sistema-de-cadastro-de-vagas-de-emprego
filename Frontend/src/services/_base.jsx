@@ -96,15 +96,9 @@ let put = (url, data) => {
 let destroy = (url, data) => {
   return new Promise((resolve, reject) => {
     api
-      .delete(
-        url,
-        {
-          headers: headers,
-        },
-        JSON.stringify({
-          data,
-        })
-      )
+      .delete(url, {
+        headers: headers,
+      })
       .then((res) => {
         let sessionToken = res.headers["session-token"];
         if (sessionToken) sessionStorage.setItem("sessionToken", sessionToken);

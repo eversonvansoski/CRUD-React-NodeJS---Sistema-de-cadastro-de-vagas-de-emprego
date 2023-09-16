@@ -16,33 +16,46 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import { editar } from "../../../services/vagas";
 
 export default class Index extends Component {
   state = {
-    Cpf: "",
-    nome: "",
-    email: "",
-    cep: "",
-    endereco: "",
-    numero: "",
-    cidade: "",
-    bairro: "",
-    estado: "",
-    complemento: "",
-    celular: "",
-    telefone: "",
-    perfilId: 0,
+    titulo: "",
+    empresa: "",
+    descricao: "",
+    regimeContratacao: 0,
     erro: false,
+    msgErro: "",
   };
 
-  alterarUsuario = () => {};
+  editarVaga = () => {
+    const listItems = editar(
+      this.props.id,
+      this.state.titulo,
+      this.state.empresa,
+      this.state.descricao,
+      this.state.regimeContratacao
+    );
+    listItems
+      .then((data) => {
+        if (!data.data.success) {
+          this.setState({ erro: false, msgErro: data.data.msg });
+        } else {
+          this.props.handleCloseMsg();
+          this.props.listaVagas();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   msgError = () => {
     return this.state.erro ? (
       <Grid container mt={3}>
         <Grid item xs>
           <Alert severity="error" mt={3}>
-            Preencha todos os campos
+            {this.state.msgErro}
           </Alert>
         </Grid>
       </Grid>
@@ -51,20 +64,17 @@ export default class Index extends Component {
     );
   };
 
-  handleChangeCpf = (value) => {
-    this.setState({ Cpf: value });
+  handleChangeTitulo = (value) => {
+    this.setState({ titulo: value });
   };
-  handleChangeNome = (value) => {
-    this.setState({ nome: value });
+  handleChangeEmpresa = (value) => {
+    this.setState({ empresa: value });
   };
-  handleChangeEmail = (value) => {
-    this.setState({ email: value });
+  handleChangeDescricao = (value) => {
+    this.setState({ descricao: value });
   };
-  handleChangeTelefone = (value) => {
-    this.setState({ telefone: value });
-  };
-  handleChangeLinkedin = (value) => {
-    this.setState({ linkedin: value });
+  handleChangeRegimeContratacao = (value) => {
+    this.setState({ regimeContratacao: value });
   };
 
   render() {
@@ -171,7 +181,7 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={(event, value) => this.alterarUsuario()}
+            onClick={(event, value) => this.editarVaga()}
           >
             Confirmar
           </Button>

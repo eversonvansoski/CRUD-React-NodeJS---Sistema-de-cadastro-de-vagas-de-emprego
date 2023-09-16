@@ -15,12 +15,18 @@ import { getScreenSize, refreshToken } from "../../utils/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import DoneIcon from "@mui/icons-material/Done";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getByFilter } from "../../services/vagas";
+import { listarPorFiltro } from "../../services/vagas";
 import DialogExcluir from "./Dialogs/Excluir";
 import DialogEditar from "./Dialogs/Editar";
 import DialogInserir from "./Dialogs/Inserir";
 import DialogExibir from "./Dialogs/Exibir";
+import DialogPausar from "./Dialogs/Pausar";
+import DialogAtivar from "./Dialogs/Ativar";
+import DialogFinalizar from "./Dialogs/Finalizar";
 
 export default class Historico extends Component {
   state = {
@@ -34,6 +40,9 @@ export default class Historico extends Component {
     msgExibirAberta: false,
     msgExcluirAberta: false,
     msgEditarAberta: false,
+    msgPausarAberta: false,
+    msgAtivarAberta: false,
+    msgFinalizarAberta: false,
     dialogId: "",
     dialogNome: "",
     dialogData: [],
@@ -43,7 +52,7 @@ export default class Historico extends Component {
   };
 
   listaVagas = () => {
-    const listItems = getByFilter(
+    const listItems = listarPorFiltro(
       this.state.filtroTitulo,
       this.state.filtroEmpresa,
       this.state.filtroRegimeContratacao,
@@ -103,11 +112,41 @@ export default class Historico extends Component {
   handleCloseMsgInserir = () => {
     this.setState({ msgInserirAberta: false });
   };
+  handleCloseMsgPausar = () => {
+    this.setState({ msgPausarAberta: false });
+  };
+  handleCloseMsgAtivar = () => {
+    this.setState({ msgAtivarAberta: false });
+  };
+  handleCloseMsgFinalizar = () => {
+    this.setState({ msgFinalizarAberta: false });
+  };
 
   render() {
     let handleOpenMsgExcluir = (id, nome) => {
       this.setState({
         msgExcluirAberta: true,
+        dialogId: id,
+        dialogNome: nome,
+      });
+    };
+    let handleOpenMsgPausar = (id, nome) => {
+      this.setState({
+        msgPausarAberta: true,
+        dialogId: id,
+        dialogNome: nome,
+      });
+    };
+    let handleOpenMsgAtivar = (id, nome) => {
+      this.setState({
+        msgAtivarAberta: true,
+        dialogId: id,
+        dialogNome: nome,
+      });
+    };
+    let handleOpenMsgFinalizar = (id, nome) => {
+      this.setState({
+        msgFinalizarAberta: true,
         dialogId: id,
         dialogNome: nome,
       });
@@ -157,7 +196,7 @@ export default class Historico extends Component {
         field: "acoes",
         headerName: "Ações",
         sortable: false,
-        width: 130,
+        width: 260,
         disableClickEventBubbling: true,
         renderCell: (params) => {
           return (
@@ -179,6 +218,44 @@ export default class Historico extends Component {
               >
                 <VisibilityIcon />
               </IconButton>
+              {params.row.status_vaga_id === 1 && (
+                <>
+                  <IconButton
+                    color="secondary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() =>
+                      handleOpenMsgPausar(params.row.id, params.row.titulo)
+                    }
+                  >
+                    <PauseIcon />
+                  </IconButton>
+                </>
+              )}
+              {params.row.status_vaga_id !== 3 && (
+                <>
+                  <IconButton
+                    color="secondary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() =>
+                      handleOpenMsgFinalizar(params.row.id, params.row.titulo)
+                    }
+                  >
+                    <DoneIcon />
+                  </IconButton>
+                </>
+              )}
+
+              {params.row.status_vaga_id === 2 && (
+                <IconButton
+                  color="secondary"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() =>
+                    handleOpenMsgAtivar(params.row.id, params.row.titulo)
+                  }
+                >
+                  <PlayArrowIcon />
+                </IconButton>
+              )}
 
               <IconButton
                 color="primary"
@@ -228,6 +305,48 @@ export default class Historico extends Component {
         >
           <Button onClick={this.handleCloseMsgExcluir}>Cancelar</Button>
         </DialogExcluir>
+        <DialogPausar
+          title={
+            <>
+              {"Deseja pausar a vaga "}
+              <u>{this.state.dialogNome}</u> {"?"}
+            </>
+          }
+          id={this.state.dialogId}
+          open={this.state.msgPausarAberta}
+          handleCloseMsg={this.handleCloseMsgPausar}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgPausar}>Cancelar</Button>
+        </DialogPausar>
+        <DialogAtivar
+          title={
+            <>
+              {"Deseja ativar a vaga "}
+              <u>{this.state.dialogNome}</u> {"?"}
+            </>
+          }
+          id={this.state.dialogId}
+          open={this.state.msgAtivarAberta}
+          handleCloseMsg={this.handleCloseMsgAtivar}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgAtivar}>Cancelar</Button>
+        </DialogAtivar>
+        <DialogFinalizar
+          title={
+            <>
+              {"Deseja finalizar a vaga "}
+              <u>{this.state.dialogNome}</u> {"?"}
+            </>
+          }
+          id={this.state.dialogId}
+          open={this.state.msgFinalizarAberta}
+          handleCloseMsg={this.handleCloseMsgFinalizar}
+          listaVagas={this.listaVagas}
+        >
+          <Button onClick={this.handleCloseMsgFinalizar}>Cancelar</Button>
+        </DialogFinalizar>
 
         <DialogEditar
           title="Editar Vaga"
