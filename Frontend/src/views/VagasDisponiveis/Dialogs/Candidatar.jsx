@@ -7,15 +7,16 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { ativar } from "../../../services/vagas";
+import { incluirCandidatura } from "../../../services/vagas";
 
 export default class Index extends Component {
-  handleAtivar = (id) => {
-    const service = ativar(id);
+  handleCandidatar = (id) => {
+    let candidatoId = 0;
+    const service = incluirCandidatura(id, candidatoId);
     service
       .then((data) => {
         if (!data.data.success) {
-          this.setState({ erro: false, msgErro: data.data.msg });
+          this.setState({ erro: true, msgErro: data.data.msg });
         } else {
           this.props.handleCloseMsg();
           this.props.listaVagas();
@@ -43,9 +44,9 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={() => this.handleAtivar(this.props.id)}
+            onClick={() => this.handleCandidatar(this.props.id)}
           >
-            Ativar
+            Confirmar Candidatura
           </Button>
         </DialogActions>
       </Dialog>

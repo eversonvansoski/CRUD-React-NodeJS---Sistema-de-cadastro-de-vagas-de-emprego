@@ -11,33 +11,62 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import { criar } from "../../../services/candidatos";
 
 export default class Index extends Component {
   state = {
-    Cpf: "",
     nome: "",
     email: "",
-    cep: "",
-    endereco: "",
-    numero: "",
-    cidade: "",
-    bairro: "",
-    estado: "",
-    complemento: "",
-    celular: "",
     telefone: "",
-    perfilId: 0,
+    cpf: "",
+    linkedin: "",
     erro: false,
+    success: false,
+    msg: "",
   };
 
-  alterarUsuario = () => {};
+  cadastrarCandidato = () => {
+    const listItems = criar(
+      this.state.nome,
+      this.state.email,
+      this.state.telefone,
+      this.state.cpf,
+      this.state.linkedin
+    );
+    listItems
+      .then((data) => {
+        this.setState({ msg: data.data.msg });
+        if (!data.data.success) {
+          this.setState({ erro: true });
+        } else {
+          this.setState({ success: true });
+          this.props.listaCandidatos();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   msgError = () => {
     return this.state.erro ? (
       <Grid container mt={3}>
         <Grid item xs>
           <Alert severity="error" mt={3}>
-            Preencha todos os campos
+            {this.state.msg}
+          </Alert>
+        </Grid>
+      </Grid>
+    ) : (
+      <></>
+    );
+  };
+  msgSuccess = () => {
+    return this.state.success ? (
+      <Grid container mt={3}>
+        <Grid item xs>
+          <Alert severity="success" mt={3}>
+            {this.state.msg}
           </Alert>
         </Grid>
       </Grid>
@@ -47,7 +76,7 @@ export default class Index extends Component {
   };
 
   handleChangeCpf = (value) => {
-    this.setState({ Cpf: value });
+    this.setState({ cpf: value });
   };
   handleChangeNome = (value) => {
     this.setState({ nome: value });
@@ -72,6 +101,7 @@ export default class Index extends Component {
         <DialogTitle>
           {this.props.title}
           {this.msgError()}
+          {this.msgSuccess()}
         </DialogTitle>
         <DialogContent>
           <>
@@ -140,7 +170,7 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={(event, value) => this.alterarUsuario()}
+            onClick={(event, value) => this.cadastrarCandidato()}
           >
             Confirmar
           </Button>

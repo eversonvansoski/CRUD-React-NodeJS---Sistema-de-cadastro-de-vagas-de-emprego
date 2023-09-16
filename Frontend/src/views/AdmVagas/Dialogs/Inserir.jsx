@@ -38,7 +38,7 @@ export default class Index extends Component {
     listItems
       .then((data) => {
         if (!data.data.success) {
-          this.setState({ erro: false, msgErro: data.data.msg });
+          this.setState({ erro: true, msgErro: data.data.msg });
         } else {
           this.props.handleCloseMsg();
           this.props.listaVagas();

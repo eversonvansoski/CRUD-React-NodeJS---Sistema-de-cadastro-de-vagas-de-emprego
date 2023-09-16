@@ -33,7 +33,16 @@ let editar = (vagaId, titulo, empresa, descricao, regimeContratacaoId) => {
     descricao: descricao,
     regime_contratacao_id: regimeContratacaoId,
   };
+
   return put("/vagas/editar", body);
+};
+
+let incluirCandidatura = (vagaId, candidatoId) => {
+  let body = {
+    vaga_id: vagaId,
+    candidato_id: candidatoId,
+  };
+  return put("/vagas/incluir-candidatura", body);
 };
 
 let ativar = (vagaId) => {
@@ -58,4 +67,13 @@ let excluir = (vagaId) => {
   return destroy("/vagas/excluir/" + vagaId);
 };
 
-export { listarPorFiltro, criar, editar, ativar, pausar, finalizar, excluir };
+export {
+  listarPorFiltro,
+  criar,
+  editar,
+  incluirCandidatura,
+  ativar,
+  pausar,
+  finalizar,
+  excluir,
+};

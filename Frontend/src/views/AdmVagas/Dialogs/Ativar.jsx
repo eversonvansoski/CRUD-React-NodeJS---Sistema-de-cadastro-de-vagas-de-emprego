@@ -7,15 +7,15 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { excluir } from "../../../services/vagas";
+import { ativar } from "../../../services/vagas";
 
 export default class Index extends Component {
-  handleExcluir = (id) => {
-    const service = excluir(id);
+  handleAtivar = (id) => {
+    const service = ativar(id);
     service
       .then((data) => {
         if (!data.data.success) {
-          this.setState({ erro: false, msgErro: data.data.msg });
+          this.setState({ erro: true, msgErro: data.data.msg });
         } else {
           this.props.handleCloseMsg();
           this.props.listaVagas();
@@ -43,9 +43,9 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={() => this.handleExcluir(this.props.id)}
+            onClick={() => this.handleAtivar(this.props.id)}
           >
-            Excluir
+            Ativar
           </Button>
         </DialogActions>
       </Dialog>

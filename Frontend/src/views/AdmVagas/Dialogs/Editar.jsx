@@ -29,25 +29,31 @@ export default class Index extends Component {
   };
 
   editarVaga = () => {
-    const listItems = editar(
-      this.props.id,
-      this.state.titulo,
-      this.state.empresa,
-      this.state.descricao,
-      this.state.regimeContratacao
-    );
-    listItems
-      .then((data) => {
-        if (!data.data.success) {
-          this.setState({ erro: false, msgErro: data.data.msg });
-        } else {
-          this.props.handleCloseMsg();
-          this.props.listaVagas();
-        }
-      })
-      .catch((e) => {
-        console.log(e);
+    if (this.props.data) {
+      this.props.data.map((item) => {
+        const listItems = editar(
+          this.props.id,
+          this.state.titulo ? this.state.titulo : item.titulo,
+          this.state.empresa ? this.state.empresa : item.empresa,
+          this.state.descricao ? this.state.descricao : item.descricao,
+          this.state.regimeContratacao
+            ? this.state.regimeContratacao
+            : item.regime_contratacao_id
+        );
+        listItems
+          .then((data) => {
+            if (!data.data.success) {
+              this.setState({ erro: true, msgErro: data.data.msg });
+            } else {
+              this.props.handleCloseMsg();
+              this.props.listaVagas();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       });
+    }
   };
 
   msgError = () => {

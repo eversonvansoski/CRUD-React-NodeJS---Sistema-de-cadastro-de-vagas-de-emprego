@@ -11,33 +11,52 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import { editar } from "../../../services/candidatos";
 
 export default class Index extends Component {
   state = {
-    Cpf: "",
     nome: "",
     email: "",
-    cep: "",
-    endereco: "",
-    numero: "",
-    cidade: "",
-    bairro: "",
-    estado: "",
-    complemento: "",
-    celular: "",
     telefone: "",
-    perfilId: 0,
+    cpf: "",
+    linkedin: "",
     erro: false,
+    msgErro: "",
   };
 
-  alterarUsuario = () => {};
+  editarCandidato = () => {
+    if (this.props.data) {
+      this.props.data.map((item) => {
+        const listItems = editar(
+          this.props.id,
+          this.state.nome ? this.state.nome : item.nome,
+          this.state.email ? this.state.email : item.email,
+          this.state.telefone ? this.state.telefone : item.telefone,
+          this.state.cpf ? this.state.cpf : item.cpf,
+          this.state.linkedin ? this.state.linkedin : item.linkedin
+        );
+        listItems
+          .then((data) => {
+            if (!data.data.success) {
+              this.setState({ erro: true, msgErro: data.data.msg });
+            } else {
+              this.props.handleCloseMsg();
+              this.props.listaCandidatos();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+    }
+  };
 
   msgError = () => {
     return this.state.erro ? (
       <Grid container mt={3}>
         <Grid item xs>
           <Alert severity="error" mt={3}>
-            Preencha todos os campos
+            {this.state.msgErro}
           </Alert>
         </Grid>
       </Grid>
@@ -47,7 +66,7 @@ export default class Index extends Component {
   };
 
   handleChangeCpf = (value) => {
-    this.setState({ Cpf: value });
+    this.setState({ cpf: value });
   };
   handleChangeNome = (value) => {
     this.setState({ nome: value });
@@ -153,7 +172,7 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={(event, value) => this.alterarUsuario()}
+            onClick={(event, value) => this.editarCandidato()}
           >
             Confirmar
           </Button>

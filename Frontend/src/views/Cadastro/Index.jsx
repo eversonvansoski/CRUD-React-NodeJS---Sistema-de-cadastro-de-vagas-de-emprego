@@ -5,20 +5,36 @@ import {
   Card,
   Grid,
   Divider,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   TextField,
   CardContent,
   Alert,
 } from "@mui/material";
 import { Component } from "react";
+import { criar } from "../../services/cadastro";
 
 export default class Index extends Component {
-  state = {};
+  state = { email: "", nome: "", senha: "", novaSenha: "" };
 
-  componentDidMount = (value) => {};
+  cadastrar = () => {
+    const listItems = criar(
+      this.state.email,
+      this.state.nome,
+      this.state.senha,
+      this.state.novaSenha
+    );
+    listItems
+      .then((data) => {
+        this.setState({ msg: data.data.msg });
+        if (!data.data.success) {
+          this.setState({ erro: true });
+        } else {
+          document.location = "./";
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   msgError = () => {
     return this.state.erro ? (
@@ -32,6 +48,20 @@ export default class Index extends Component {
     ) : (
       <></>
     );
+  };
+
+  handleChangeNome = (value) => {
+    this.setState({ nome: value });
+  };
+
+  handleChangeEmail = (value) => {
+    this.setState({ email: value });
+  };
+  handleChangeSenha = (value) => {
+    this.setState({ senha: value });
+  };
+  handleChangeConfirmarSenha = (value) => {
+    this.setState({ novaSenha: value });
   };
 
   render() {
@@ -69,9 +99,21 @@ export default class Index extends Component {
                       margin="normal"
                       required
                       fullWidth
+                      label="Nome"
+                      type="text"
+                      onKeyUp={(e) => this.handleChangeNome(e.target.value)}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item square xs={12} sm={12} md={12}>
+                  <Box sx={{ ml: { md: 2 }, mr: { md: 2 } }}>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
                       label="Email"
                       type="text"
-                      /* onKeyUp={(e) => this.handleNovaSenha(e.target.value)} */
+                      onKeyUp={(e) => this.handleChangeEmail(e.target.value)}
                     />
                   </Box>
                 </Grid>
@@ -88,7 +130,7 @@ export default class Index extends Component {
                       fullWidth
                       label="Senha"
                       type="password"
-                      /* onKeyUp={(e) => this.handleNovaSenha(e.target.value)} */
+                      onKeyUp={(e) => this.handleChangeSenha(e.target.value)}
                     />
                   </Box>
                 </Grid>
@@ -100,7 +142,9 @@ export default class Index extends Component {
                       fullWidth
                       label="Confirmar Senha"
                       type="password"
-                      /*  onKeyUp={(e) => this.handleConfirmarSenha(e.target.value)} */
+                      onKeyUp={(e) =>
+                        this.handleChangeConfirmarSenha(e.target.value)
+                      }
                     />
                   </Box>
                 </Grid>
@@ -110,7 +154,7 @@ export default class Index extends Component {
                     <Button
                       fullWidth
                       variant="contained"
-                      disabled={this.state.loading}
+                      onClick={(e) => this.cadastrar(e.target.value)}
                     >
                       Criar Cadastro
                     </Button>

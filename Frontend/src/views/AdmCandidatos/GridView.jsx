@@ -15,7 +15,7 @@ import { getScreenSize, refreshToken } from "../../utils/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getByFilter } from "../../services/candidatos";
+import { listarPorFiltro } from "../../services/candidatos";
 import DialogExcluir from "./Dialogs/Excluir";
 import DialogEditar from "./Dialogs/Editar";
 import DialogInserir from "./Dialogs/Inserir";
@@ -40,7 +40,7 @@ export default class Historico extends Component {
   };
 
   listaCandidatos = () => {
-    const listItems = getByFilter(
+    const listItems = listarPorFiltro(
       this.state.filtroNome,
       this.state.filtroEmail,
       this.state.filtroTelefone,
@@ -122,7 +122,7 @@ export default class Historico extends Component {
       {
         field: "email",
         headerName: "Email",
-        width: 150,
+        width: 300,
         editable: false,
       },
       {

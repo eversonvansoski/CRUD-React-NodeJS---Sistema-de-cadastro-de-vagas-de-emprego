@@ -1,6 +1,6 @@
 import { get, post, put, destroy } from "./_base";
 
-let getByFilter = (nome, email, telefone, cpf) => {
+let listarPorFiltro = (nome, email, telefone, cpf) => {
   let query =
     "?nome=" +
     nome +
@@ -14,25 +14,34 @@ let getByFilter = (nome, email, telefone, cpf) => {
   return get("/candidatos" + query);
 };
 
-let create = (userId, signatureDate, signatureExpirationDate) => {
+let criar = (nome, email, telefone, cpf, linkedin) => {
   let body = {
-    id: 0,
-    signatureDate: signatureDate,
-    signatureExpirationDate: signatureExpirationDate,
-    isActive: true,
-    dateCreated: signatureDate,
-    userId: userId,
+    nome: nome,
+    email: email,
+    telefone: telefone,
+    cpf: cpf,
+    linkedin: linkedin,
   };
-  return post("/ClientSignature/Create", body);
+  console.log(body);
+
+  return post("/cadastro/candidato", body);
 };
 
-let update = (userId, signatureId, isActive) => {
+let editar = (candidatoId, nome, email, telefone, cpf, linkedin) => {
   let body = {
-    id: signatureId,
-    isActive: isActive,
-    userId: userId,
+    candidato_id: candidatoId,
+    nome: nome,
+    email: email,
+    telefone: telefone,
+    cpf: cpf,
+    linkedin: linkedin,
   };
-  return put("/ClientSignature/" + userId, body);
+
+  return put("/candidatos/editar", body);
 };
 
-export { getByFilter, create, update };
+let excluir = (candidatoId) => {
+  return destroy("/candidatos/excluir/" + candidatoId);
+};
+
+export { listarPorFiltro, criar, editar, excluir };

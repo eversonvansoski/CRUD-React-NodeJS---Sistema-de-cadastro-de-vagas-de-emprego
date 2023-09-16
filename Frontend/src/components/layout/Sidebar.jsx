@@ -11,26 +11,24 @@ import {
 
 import GroupIcon from "@mui/icons-material/Group";
 import SearchIcon from "@mui/icons-material/Search";
+import PersonIcon from "@mui/icons-material/Person";
 
 export default function Sidebar(props) {
+  const rota = window.location.pathname;
+
+  console.log(rota);
   return (
     <List>
       <Link
-        to={"../Vagas"}
+        to={"../AdmVagas"}
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
               <Icon
-                sx={{
-                  color:
-                    window.location.pathname === "Vagas"
-                      ? "primary"
-                      : "#96a5c1",
-                }}
                 component={SearchIcon}
-                color={window.location.pathname === "Vagas" ? "primary" : ""}
+                color={rota === "/AdmVagas" ? "primary" : ""}
               />
             </ListItemIcon>
             <ListItemText primary={"Vagas"} />
@@ -38,23 +36,47 @@ export default function Sidebar(props) {
         </ListItem>
       </Link>
       <Link
-        to={"../Candidatos"}
+        to={"../MinhasVagas"}
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
               <Icon
-                sx={{
-                  color:
-                    window.location.pathname === "Candidatos"
-                      ? "primary"
-                      : "#96a5c1",
-                }}
+                component={SearchIcon}
+                color={rota === "/MinhasVagas" ? "primary" : ""}
+              />
+            </ListItemIcon>
+            <ListItemText primary={"Vagas"} />
+          </ListItemButton>
+        </ListItem>
+      </Link>
+      <Link
+        to={"../VagasDisponiveis"}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <Icon
+                component={SearchIcon}
+                color={rota === "/VagasDisponiveis" ? "primary" : ""}
+              />
+            </ListItemIcon>
+            <ListItemText primary={"Vagas"} />
+          </ListItemButton>
+        </ListItem>
+      </Link>
+      <Link
+        to={"../AdmCandidatos"}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <Icon
                 component={GroupIcon}
-                color={
-                  window.location.pathname === "Candidatos" ? "primary" : ""
-                }
+                color={rota === "/AdmCandidatos" ? "primary" : ""}
               />
             </ListItemIcon>
             <ListItemText primary={"Candidatos"} />

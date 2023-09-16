@@ -1,17 +1,25 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Vagas from "./views/Vagas/Index";
+import AdmVagas from "./views/AdmVagas/Index";
+import MinhasVagas from "./views/MinhasVagas/Index";
+import VagasDisponiveis from "./views/VagasDisponiveis/Index";
 import Layout from "./components/layout/Index";
 import Cadastro from "./views/Cadastro/Index";
 import Login from "./views/Login/Index";
-import Candidatos from "./views/Candidatos/Index";
+import AdmCandidatos from "./views/AdmCandidatos/Index";
 //import Perfil from "./views/Perfil/Index";
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/Vagas" element={<Layout drawer />}>
-      <Route index element={<Vagas title="Vagas" />} />
+    <Route path="/AdmVagas" element={<Layout drawer />}>
+      <Route index element={<AdmVagas title="AdmVagas" />} />
+    </Route>
+    <Route path="/MinhasVagas" element={<Layout drawer />}>
+      <Route index element={<MinhasVagas title="MinhasVagas" />} />
+    </Route>
+    <Route path="/VagasDisponiveis" element={<Layout drawer />}>
+      <Route index element={<VagasDisponiveis title="VagasDisponiveis" />} />
     </Route>
     <Route element={<Layout />}>
       <Route index element={<Login title="Login" />} />
@@ -22,8 +30,8 @@ const AppRoutes = () => (
     <Route path="/Cadastro" element={<Layout />}>
       <Route index element={<Cadastro title="Cadastro" />} />
     </Route>
-    <Route path="/Candidatos" element={<Layout drawer />}>
-      <Route index element={<Candidatos title="Candidatos" />} />
+    <Route path="/AdmCandidatos" element={<Layout drawer />}>
+      <Route index element={<AdmCandidatos title="AdmCandidatos" />} />
     </Route>
     {/*
     <Route path="/Perfil" element={<Layout drawer />}>

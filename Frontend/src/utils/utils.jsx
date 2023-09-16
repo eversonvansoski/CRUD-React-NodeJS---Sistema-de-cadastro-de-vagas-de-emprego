@@ -17,9 +17,6 @@ import { logout as exit, refreshToken as reToken } from "../services/login";
       //window.location.href = "/Login";
     });
 }; */
-let refreshToken = () => {
-  logout();
-};
 
 let getScreenSize = () => {
   return { h: window.screen.height, w: window.screen.width };
@@ -50,23 +47,8 @@ let getDataToken = () => {
   }
   return objToken;
 };
-let logout = () => {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  localStorage.removeItem("sessionToken");
-  sessionStorage.removeItem("sessionToken");
-  exit()
-    .then((res) => {
-      if (res.data.status) {
-        window.location.href = "/Login";
-      }
-    })
-    .catch((e) => {
-      window.location.href = "/Login";
-    });
-};
 let setTitle = (title) => {
   document.title = title;
 };
 
-export { getDataToken, getScreenSize, logout, refreshToken, setTitle };
+export { getDataToken, getScreenSize, setTitle };

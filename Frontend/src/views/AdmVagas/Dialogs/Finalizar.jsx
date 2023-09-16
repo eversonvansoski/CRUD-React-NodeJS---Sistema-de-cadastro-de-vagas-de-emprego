@@ -7,15 +7,15 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { pausar } from "../../../services/vagas";
+import { finalizar } from "../../../services/vagas";
 
 export default class Index extends Component {
-  handlePausar = (id) => {
-    const service = pausar(id);
+  handleFinalizar = (id) => {
+    const service = finalizar(id);
     service
       .then((data) => {
         if (!data.data.success) {
-          this.setState({ erro: false, msgErro: data.data.msg });
+          this.setState({ erro: true, msgErro: data.data.msg });
         } else {
           this.props.handleCloseMsg();
           this.props.listaVagas();
@@ -43,9 +43,9 @@ export default class Index extends Component {
           {this.props.children}
           <Button
             variant="contained"
-            onClick={() => this.handlePausar(this.props.id)}
+            onClick={() => this.handleFinalizar(this.props.id)}
           >
-            Pausar
+            Finalizar Vaga
           </Button>
         </DialogActions>
       </Dialog>

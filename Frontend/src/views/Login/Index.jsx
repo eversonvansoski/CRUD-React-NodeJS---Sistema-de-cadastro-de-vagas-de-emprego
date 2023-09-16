@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Grid,
+  Link,
   TextField,
   CardContent,
   Alert,
@@ -94,6 +95,12 @@ export default class Index extends Component {
                     >
                       Entrar
                     </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item square xs={12} sm={12} md={12}>
+                  <Box sx={{ ml: { md: 2 }, mr: { md: 2 } }} mt={3}>
+                    <Link href={"../Cadastro"}>Criar Cadastro</Link>
                   </Box>
                 </Grid>
                 <Grid item square xs={12} sm={12} md={12}>

@@ -23,7 +23,7 @@ module.exports = function (app) {
     );
   });
 
-  app.delete("/candidatos/excluir/candidato_id:", async function (req, res) {
+  app.delete("/candidatos/excluir/:candidato_id", async function (req, res) {
     const candidato_id = req.params.candidato_id;
 
     let excluirCandidato = await candidatos.excluirCandidato(candidato_id);
@@ -42,18 +42,22 @@ module.exports = function (app) {
     const nome = req.body.nome;
     const email = req.body.email;
 
-    let editarCandidato = await candidatos.editarCandidato(
-      telefone,
-      cpf,
-      linkedin,
-      nome,
-      email,
-      candidato_id
-    );
-    if (editarCandidato) {
-      res.json(defaultResponse(true, "Candidato alterado"));
+    if (!candidato_id || !telefone || !cpf || !linkedin || !nome || !email) {
+      res.json(defaultResponse(false, "Preencha todos os campos"));
     } else {
-      res.json(defaultResponse(false, "Erro ao editar o candidato"));
+      let editarCandidato = await candidatos.editarCandidato(
+        telefone,
+        cpf,
+        linkedin,
+        nome,
+        email,
+        candidato_id
+      );
+      if (editarCandidato) {
+        res.json(defaultResponse(true, "Candidato alterado"));
+      } else {
+        res.json(defaultResponse(false, "Erro ao editar o candidato"));
+      }
     }
   });
 };

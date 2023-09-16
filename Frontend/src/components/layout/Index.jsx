@@ -24,7 +24,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import { Outlet, Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { logout } from "../../utils/utils";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const drawerWidth = 240;
@@ -112,8 +111,7 @@ export default function MiniDrawer(props) {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    localStorage.removeItem("lastURL");
-    logout();
+    localStorage.removeItem("token");
   };
 
   const newTheme = createTheme({

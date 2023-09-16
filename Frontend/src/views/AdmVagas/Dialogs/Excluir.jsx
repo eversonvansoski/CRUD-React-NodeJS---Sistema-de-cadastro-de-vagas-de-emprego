@@ -7,21 +7,23 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-//import { deleteContent } from "../../../services/conteudos";
+import { excluir } from "../../../services/vagas";
 
 export default class Index extends Component {
-  state = {};
-
   handleExcluir = (id) => {
-    /*     const service = deleteContent(id);
+    const service = excluir(id);
     service
       .then((data) => {
-        this.props.handleCloseMsgExcluir();
-        this.props.listConteudos();
+        if (!data.data.success) {
+          this.setState({ erro: true, msgErro: data.data.msg });
+        } else {
+          this.props.handleCloseMsg();
+          this.props.listaVagas();
+        }
       })
       .catch((e) => {
-        e.response.status === 401 && refreshToken();
-      }); */
+        console.log(e);
+      });
   };
 
   render() {
