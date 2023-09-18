@@ -13,13 +13,13 @@ import AdmCandidatos from "./views/AdmCandidatos/Index";
 const AppRoutes = () => (
   <Routes>
     <Route path="/AdmVagas" element={<Layout drawer />}>
-      <Route index element={<AdmVagas title="AdmVagas" />} />
+      <Route index element={<AdmVagas title="Vagas" />} />
     </Route>
     <Route path="/MinhasVagas" element={<Layout drawer />}>
-      <Route index element={<MinhasVagas title="MinhasVagas" />} />
+      <Route index element={<MinhasVagas title="Minhas Vagas" />} />
     </Route>
     <Route path="/VagasDisponiveis" element={<Layout drawer />}>
-      <Route index element={<VagasDisponiveis title="VagasDisponiveis" />} />
+      <Route index element={<VagasDisponiveis title="Vagas Disponiveis" />} />
     </Route>
     <Route element={<Layout />}>
       <Route index element={<Login title="Login" />} />
@@ -31,7 +31,7 @@ const AppRoutes = () => (
       <Route index element={<Cadastro title="Cadastro" />} />
     </Route>
     <Route path="/AdmCandidatos" element={<Layout drawer />}>
-      <Route index element={<AdmCandidatos title="AdmCandidatos" />} />
+      <Route index element={<AdmCandidatos title="Candidatos" />} />
     </Route>
     {/*
     <Route path="/Perfil" element={<Layout drawer />}>

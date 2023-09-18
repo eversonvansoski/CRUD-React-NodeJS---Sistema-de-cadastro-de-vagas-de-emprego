@@ -11,11 +11,29 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { Component } from "react";
+import { auth } from "../../services/login";
+import { getDataToken } from "../../utils/utils";
 
 export default class Index extends Component {
-  state = {};
+  state = { email: "", senha: "", msg: "", erro: false };
 
-  componentDidMount = (value) => {};
+  handleLogin = () => {
+    const listItems = auth(this.state.email, this.state.senha);
+    listItems
+      .then(async (data) => {
+        this.setState({ msg: data.data.msg });
+        if (!data.data.success) {
+          this.setState({ erro: true });
+        } else {
+          localStorage.setItem("token", data.data.msg);
+          let tipoId = getDataToken();
+          document.location = tipoId === 1 ? "./AdmVagas" : "./MinhasVagas";
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   msgError = () => {
     return this.state.erro ? (
@@ -29,6 +47,13 @@ export default class Index extends Component {
     ) : (
       <></>
     );
+  };
+
+  handleChangeEmail = (value) => {
+    this.setState({ email: value });
+  };
+  handleChangeSenha = (value) => {
+    this.setState({ senha: value });
   };
 
   render() {
@@ -69,7 +94,7 @@ export default class Index extends Component {
                       required
                       fullWidth
                       label="Email"
-                      onKeyUp={(e) => this.handleUsuario(e.target.value)}
+                      onKeyUp={(e) => this.handleChangeEmail(e.target.value)}
                     />
                   </Box>
                 </Grid>
@@ -81,7 +106,7 @@ export default class Index extends Component {
                       fullWidth
                       label="Senha"
                       type="password"
-                      onKeyUp={(e) => this.handleSenha(e.target.value)}
+                      onKeyUp={(e) => this.handleChangeSenha(e.target.value)}
                     />
                   </Box>
                 </Grid>

@@ -14,6 +14,10 @@ let listarPorFiltro = (titulo, empresa, regimeContratacao, status) => {
   return get("/vagas" + query);
 };
 
+let listarPorUsuario = (usuarioId) => {
+  return get("/vagas/minhas-vagas/" + usuarioId);
+};
+
 let criar = (titulo, empresa, descricao, regimeContratacaoId) => {
   let body = {
     titulo: titulo,
@@ -37,12 +41,13 @@ let editar = (vagaId, titulo, empresa, descricao, regimeContratacaoId) => {
   return put("/vagas/editar", body);
 };
 
-let incluirCandidatura = (vagaId, candidatoId) => {
+let incluirCandidatura = (vagaId, usuarioId) => {
   let body = {
     vaga_id: vagaId,
-    candidato_id: candidatoId,
+    usuario_id: usuarioId,
   };
-  return put("/vagas/incluir-candidatura", body);
+  console.log(body);
+  return post("/vagas/incluir-candidatura", body);
 };
 
 let ativar = (vagaId) => {
@@ -69,6 +74,7 @@ let excluir = (vagaId) => {
 
 export {
   listarPorFiltro,
+  listarPorUsuario,
   criar,
   editar,
   incluirCandidatura,

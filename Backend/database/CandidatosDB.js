@@ -64,6 +64,23 @@ const listarCandidatoPorId = async function (candidato_id) {
   });
 };
 
+const listarCandidatoIdPorUsuarioId = async function (usuario_id) {
+  return new Promise((resolve) => {
+    db.connection.query(
+      "select * from candidatos where usuario_id = ?",
+      [usuario_id],
+      function (err, response) {
+        if (err) throw err;
+        if (response.length > 0) {
+          resolve(response[0].id);
+        } else {
+          resolve(0);
+        }
+      }
+    );
+  });
+};
+
 const cadastrarCandidato = async function (
   email,
   telefone,
@@ -173,6 +190,7 @@ const editarCandidato = async function (
 
 module.exports = {
   listarCandidatos,
+  listarCandidatoIdPorUsuarioId,
   cadastrarCandidato,
   excluirCandidato,
   editarCandidato,

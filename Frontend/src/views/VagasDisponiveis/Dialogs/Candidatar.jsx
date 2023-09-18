@@ -6,13 +6,21 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
+  Alert,
+  Grid,
 } from "@mui/material";
 import { incluirCandidatura } from "../../../services/vagas";
+import { getDataToken } from "../../../utils/utils";
 
 export default class Index extends Component {
+  state = {
+    erro: false,
+    msgErro: "",
+  };
+
   handleCandidatar = (id) => {
-    let candidatoId = 0;
-    const service = incluirCandidatura(id, candidatoId);
+    const dataToken = getDataToken();
+    const service = incluirCandidatura(id, dataToken.id);
     service
       .then((data) => {
         if (!data.data.success) {
@@ -27,6 +35,20 @@ export default class Index extends Component {
       });
   };
 
+  msgError = () => {
+    return this.state.erro ? (
+      <Grid container mt={3}>
+        <Grid item xs>
+          <Alert severity="error" mt={3}>
+            {this.state.msgErro}
+          </Alert>
+        </Grid>
+      </Grid>
+    ) : (
+      <></>
+    );
+  };
+
   render() {
     return (
       <Dialog
@@ -35,7 +57,10 @@ export default class Index extends Component {
         fullWidth
         maxWidth={"sm"}
       >
-        <DialogTitle>{this.props.title}</DialogTitle>
+        <DialogTitle>
+          {this.props.title}
+          {this.msgError()}
+        </DialogTitle>
 
         <DialogContent>
           <DialogContentText></DialogContentText>

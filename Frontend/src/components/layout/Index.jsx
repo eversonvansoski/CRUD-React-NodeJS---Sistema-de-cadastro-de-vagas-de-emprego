@@ -112,6 +112,7 @@ export default function MiniDrawer(props) {
   };
   const handleLogout = () => {
     localStorage.removeItem("token");
+    document.location = "./";
   };
 
   const newTheme = createTheme({
@@ -194,7 +195,7 @@ export default function MiniDrawer(props) {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <Link
+                  {/*                   <Link
                     to="/Perfil"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
@@ -211,7 +212,7 @@ export default function MiniDrawer(props) {
                         &nbsp;&nbsp; Perfil
                       </Typography>
                     </MenuItem>
-                  </Link>
+                  </Link> */}
 
                   <MenuItem onClick={handleLogout}>
                     <Typography

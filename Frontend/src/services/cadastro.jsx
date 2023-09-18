@@ -1,12 +1,13 @@
 import { post } from "./_base";
 
-let criar = (email, senha, nome, confirmarSenha) => {
+let criar = (nome, email, senha, confirmarSenha) => {
   let body = {
+    nome: nome,
     email: email,
     senha: senha,
-    nome: nome,
     confirmarSenha: confirmarSenha,
   };
+  console.log(body);
   return post("/cadastro/recrutador", body);
 };
 

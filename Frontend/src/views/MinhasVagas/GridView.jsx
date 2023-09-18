@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import { Stack, Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { getScreenSize } from "../../utils/utils";
-import { listarPorFiltro } from "../../services/vagas";
+import { getScreenSize, getDataToken } from "../../utils/utils";
+import { listarPorUsuario } from "../../services/vagas";
 
 export default class Historico extends Component {
   state = {
-    filtroTitulo: "",
-    filtroEmpresa: "",
-    filtroRegimeContratacao: "",
-    filtroStatus: "",
     vagas: [],
     rows: [],
     dialogId: "",
@@ -21,12 +17,8 @@ export default class Historico extends Component {
   };
 
   listaVagas = () => {
-    const listItems = listarPorFiltro(
-      this.state.filtroTitulo,
-      this.state.filtroEmpresa,
-      this.state.filtroRegimeContratacao,
-      this.state.filtroStatus
-    );
+    const dataToken = getDataToken();
+    const listItems = listarPorUsuario(dataToken.id);
     listItems
       .then((data) => {
         let items = [];

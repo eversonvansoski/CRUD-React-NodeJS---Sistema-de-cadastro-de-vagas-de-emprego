@@ -1,4 +1,5 @@
 const db = require("../util/db");
+const candidatos = require("./CandidatosDB");
 
 const listarVagas = async function (
   titulo = "",
@@ -177,10 +178,8 @@ const editarVaga = async function (
       function (err, response) {
         if (err) throw err;
         if (response) {
-          console.log(response);
           resolve(true);
         } else {
-          console.log(response);
           resolve(false);
         }
       }
@@ -188,8 +187,11 @@ const editarVaga = async function (
   });
 };
 
-const incluirCandidatura = async function (candidato_id, vaga_id) {
-  return new Promise((resolve) => {
+const incluirCandidatura = async function (usuario_id, vaga_id) {
+  return new Promise(async (resolve) => {
+    const candidato_id = await candidatos.listarCandidatoIdPorUsuarioId(
+      usuario_id
+    );
     db.connection.query(
       "insert into candidatos_vagas (candidato_id, vaga_id) values (?, ?)",
       [candidato_id, vaga_id],

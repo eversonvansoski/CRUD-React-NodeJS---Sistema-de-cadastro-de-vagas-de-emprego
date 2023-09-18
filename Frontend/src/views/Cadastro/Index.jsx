@@ -13,12 +13,19 @@ import { Component } from "react";
 import { criar } from "../../services/cadastro";
 
 export default class Index extends Component {
-  state = { email: "", nome: "", senha: "", novaSenha: "" };
+  state = {
+    email: "",
+    nome: "",
+    senha: "",
+    novaSenha: "",
+    msg: "",
+    erro: false,
+  };
 
   cadastrar = () => {
     const listItems = criar(
-      this.state.email,
       this.state.nome,
+      this.state.email,
       this.state.senha,
       this.state.novaSenha
     );

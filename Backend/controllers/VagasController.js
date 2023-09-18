@@ -9,8 +9,8 @@ const status_vaga_finalizada = 3;
 const msg_preencha_todos_campos = "Preencha todos os campos";
 
 module.exports = function (app) {
-  app.get("/vagas/minhas-vagas", async function (req, res) {
-    const usuario_id = req.body.usuario_id;
+  app.get("/vagas/minhas-vagas/:usuario_id", async function (req, res) {
+    const usuario_id = req.params.usuario_id;
     res.json(await vagas.listarVagasPorUsuario(usuario_id));
   });
   app.get("/vagas", async function (req, res) {
@@ -64,7 +64,7 @@ module.exports = function (app) {
 
   app.delete("/vagas/excluir/:vaga_id", async function (req, res) {
     const vaga_id = req.params.vaga_id;
-    console.log(vaga_id);
+
     let excluirVaga = await vagas.excluirVaga(vaga_id);
     if (excluirVaga) {
       res.json(defaultResponse(true, "Vaga excluida"));
@@ -148,18 +148,19 @@ module.exports = function (app) {
   });
 
   app.post("/vagas/incluir-candidatura", async function (req, res) {
-    const candidato_id = req.body.candidato_id;
+    const usuario_id = req.body.usuario_id;
     const vaga_id = req.body.vaga_id;
 
+    console.log(req.body);
     let vagaAtiva = await vagas.verificarVagaItiva(vaga_id);
     if (vagaAtiva) {
       let candidaturaExistente =
         await candidatosVagas.verificarCandidaturaExistente(
-          candidato_id,
+          usuario_id,
           vaga_id
         );
       if (!candidaturaExistente) {
-        let candidatura = await vagas.incluirCandidatura(candidato_id, vaga_id);
+        let candidatura = await vagas.incluirCandidatura(usuario_id, vaga_id);
         res.json(
           defaultResponse(
             candidatura,
