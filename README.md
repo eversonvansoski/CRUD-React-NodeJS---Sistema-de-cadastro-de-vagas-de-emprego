@@ -1,4 +1,14 @@
 # Teste-Desenvolvedor-Houer
+
+Desenvolvimento:
+_____________________________________________________________________________
+
+Foi desenvolvido um frontend em React e uma API em Node.
+Para o frontend, utilizei a lib Material UI, que é instalada junto com as demais dependencias conforme passo a passo abaixo.
+O backend foi desenvolvido utilizando o banco de dados MySQL.
+
+_____________________________________________________________________________
+
 Documentação da API:
 https://documenter.getpostman.com/view/12904086/2s9YC5yCqe
 
