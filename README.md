@@ -4,8 +4,10 @@ Desenvolvimento:
 _____________________________________________________________________________
 
 Foi desenvolvido um frontend em React e uma API em Node.
+
 Para o frontend, utilizei a lib Material UI, que é instalada junto com as demais dependencias conforme passo a passo abaixo.
-O backend foi desenvolvido utilizando o banco de dados MySQL.
+
+O backend foi desenvolvido utilizando o banco de dados MySQL. O link da documentação está disponível abaixo.
 
 _____________________________________________________________________________
 
