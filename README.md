@@ -1,4 +1,4 @@
-# Teste-Desenvolvedor-Houer
+# CRUD React + NodeJS - Sistema de cadastro de vagas de emprego
 
 Desenvolvimento:
 _____________________________________________________________________________
@@ -36,7 +36,7 @@ Backend/API:
 > 
 > Executar o comando npm start no terminal
 > 
-> Importar a collection (Teste Everson.postman_collection.json) no Postman ou seguir a documentação linkada acima para testes
+> Importar a collection (TesteAPI.postman_collection.json) no Postman ou seguir a documentação linkada acima para testes
 
 
 Frontend:
